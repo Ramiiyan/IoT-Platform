@@ -1,43 +1,31 @@
 openapi: 3.0.3
 info:
-#  title: Reading List - Nodejs REST API
-#  description: >-
-#    This is a sample API specification for a simple in-memory cache application
-#    written in Nodejs
-#  license:
-#    name: Apache 2.0
-#    url: http://www.apache.org/licenses/LICENSE-2.0.html
-#  version: 1.0.0
-#externalDocs:
-#  description: Choreo
-#  url: https://choreo.dev
-#servers:
-#  - url: http://localhost:8080
-#tags:
-#  - name: keys
-#    description: In-memory key-value cache API
-#paths:
-#  /hello:
-#    summary: test request
-#    get:
-#      summary: get test request
-#      responses:
-#        "200":
-#          description: Successful operation
-#          content:
-#            application/json:
-#              schema:
-#                type: text
-#                items:
-#                  $ref:
+  title: Reading List - Nodejs REST API
+  description: >-
+    This is a sample API specification for a simple in-memory cache application
+    written in Nodejs
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+externalDocs:
+  description: Choreo
+  url: https://choreo.dev
+servers:
+  - url: http://localhost:8080
+tags:
+  - name: keys
+    description: In-memory key-value cache API
+paths:
+  /hello:
+    summary: test request
+    get:
+      summary: get test request
+
 #    post:
 #      summary: Set or update reading List
 #      operationId: SetNewBook
-#      responses:
-#        "200":
-#          description: Successful operation
-#        "400":
-#          description: Invalid request body
+#
 #      tags:
 #        - books
 #      requestBody:
@@ -45,31 +33,21 @@ info:
 #          application/json:
 #            schema:
 #              $ref: "#/components/schemas/Book"
-#
-#  /readinglist/{id}:
-#    delete:
-#      tags:
-#        - books
-#      summary: Delete book from reading list
-#      description: ""
-#      operationId: ""
-#      parameters:
-#        - name: id
-#          in: path
-#          description: Book ID
-#          required: true
-#          schema:
-#            type: string
-#      responses:
-#        "200":
-#          description: Successful operation
-#        "404":
-#          description: Book not found
-#  /healthz:
-#    summary: Healthcheck endpoint
-#    get:
-#      summary: Healthcheck
-#      operationId: Healthcheck
-#      responses:
-#        "200":
-#          description: Healthy response
+
+  /publish:
+    summary: testing MQTT publish
+    get:
+      summary: publish sample payload
+      parameters:
+        -name:
+      description: "publish sample payload"
+      operationId: "publish sample payload"
+
+  /healthz:
+    summary: Healthcheck endpoint
+    get:
+      summary: Healthcheck
+      operationId: Healthcheck
+      responses:
+        "200":
+          description: Healthy response
