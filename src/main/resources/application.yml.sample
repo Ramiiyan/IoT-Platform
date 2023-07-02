@@ -1,0 +1,7 @@
+mqtt:
+  broker: "tcp://<broker-url>:<port>"
+  clientId: "<client-Id>"
+
+spring.data.mongodb:
+  uri: <Mongodb-connection-url>
+  database: <database-name>
