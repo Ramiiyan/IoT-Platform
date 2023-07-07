@@ -3,12 +3,17 @@ package com.example.IoTPlatform;
 import com.example.IoTPlatform.model.Device;
 import com.example.IoTPlatform.model.Sensor;
 import com.example.IoTPlatform.model.SensorData;
+import com.example.IoTPlatform.model.SensorV2;
 import com.example.IoTPlatform.repository.DeviceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.ApplicationContext;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,7 +31,12 @@ public class IoTPlatformApplication implements CommandLineRunner {
 	DeviceRepository deviceItemRepo;
 
 	List<Device> deviceList = new ArrayList<Device>();
+
+	SensorV2 s21 = new SensorV2(662,"MyTestSensorV2_662","input");
 	static MqttPublisher mqttPublisher;
+
+	@Autowired
+	MongoTemplate mongoTemplate;
 	public static void main(String[] args) throws Exception {
 
 		ApplicationContext context = SpringApplication.run(IoTPlatformApplication.class, args);
@@ -36,13 +46,41 @@ public class IoTPlatformApplication implements CommandLineRunner {
 		mqttPublisher.publish("mytopic2", "Hello, MQTT!");
 
 		MqttSubscriber mqttSubscriber = context.getBean(MqttSubscriber.class);
-		mqttSubscriber.subscribe("mytopic");
+		mqttSubscriber.subscribe("myTopic");
+		mqttSubscriber.getSensorValue("myTopic");
+		//mqttSubscriber.subscribe("mytopic");
 
 	}
 
 	public void run(String... args){
-		createDeviceSensor();
+		//createDeviceSensor();
+		//Query myquery= testSensorV2();
 		showAllDevices();
+		//updateData(myquery);
+	}
+	public Query testSensorV2(){
+		System.out.println("Sensor V2.... Testing..........");
+		//Device d2 = new Device("66","testD66","Esp32","/D66_pub/","/D66_sub/");
+		s21.setTimeStamp(1573833152L);
+		s21.setsensorValue(24.2);
+		System.out.println("Criteria creation....");
+		Criteria criteria = Criteria.where("sensorId").is(s21.getsensorId())
+				.and("bucketSize").lt(1000)
+				.and("date").is(s21.getCreationDate());
+
+		return Query.query(criteria);
+
+	}
+
+	public void updateData(Query query){
+
+		int sensorId = s21.getsensorId();
+		Update update = new Update().push("samples", new SensorData(33.9))
+				.inc("bucketSize",sensorId)
+				.min("first", s21.getTimeStamp())
+				.max("last", s21.getTimeStamp());
+
+		mongoTemplate.upsert(query,update, SensorV2.class);
 	}
 
 	public void createDeviceSensor(){
@@ -52,7 +90,7 @@ public class IoTPlatformApplication implements CommandLineRunner {
 		ArrayList<Sensor> mySensors = new ArrayList<Sensor>();
 		mySensors.add(new Sensor(1124,"sm3","input", new SensorData(44.85)));
 		mySensors.add(new Sensor(1115,"sm4","input", new SensorData(46.14)));
-		mySensors.add(new Sensor(1116,"sm5","input", new SensorData(55.5)));
+		mySensors.add(new Sensor(1117,"sm7","input", new SensorData(33.5)));
 		d1.setSensor(mySensors);
 
 		deviceItemRepo.save(d1);
