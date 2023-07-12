@@ -1,10 +1,9 @@
 package com.example.IoTPlatform;
 
-import com.example.IoTPlatform.model.Device;
-import com.example.IoTPlatform.model.Sensor;
-import com.example.IoTPlatform.model.SensorData;
-import com.example.IoTPlatform.model.SensorV2;
+import com.example.IoTPlatform.model.*;
 import com.example.IoTPlatform.repository.DeviceRepository;
+import org.eclipse.paho.client.mqttv3.MqttException;
+import org.eclipse.paho.client.mqttv3.internal.wire.MqttWireMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,6 +15,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,6 +34,7 @@ public class IoTPlatformApplication implements CommandLineRunner {
 
 	SensorV2 s21 = new SensorV2(662,"MyTestSensorV2_662","input");
 	static MqttPublisher mqttPublisher;
+	static MqttSubscriber mqttSubscriber;
 
 	@Autowired
 	MongoTemplate mongoTemplate;
@@ -43,20 +44,23 @@ public class IoTPlatformApplication implements CommandLineRunner {
 		//SpringApplication.run(IoTPlatformApplication.class, args);
 
 		mqttPublisher = context.getBean(MqttPublisher.class);
-		mqttPublisher.publish("mytopic2", "Hello, MQTT!");
+		mqttPublisher.publish("mytopic2", "{\"test\":\"HelloMQTT\"}");
 
-		MqttSubscriber mqttSubscriber = context.getBean(MqttSubscriber.class);
+		mqttSubscriber = context.getBean(MqttSubscriber.class);
 		mqttSubscriber.subscribe("myTopic");
-		mqttSubscriber.getSensorValue("myTopic");
+//		double val= MqttResponse.getValue();
+//		System.out.println("getValue :" + val);
 		//mqttSubscriber.subscribe("mytopic");
-
 	}
 
 	public void run(String... args){
+//		double val= MqttResponse.getValue();
+//		System.out.println("getValue :" + val);
 		//createDeviceSensor();
 		//Query myquery= testSensorV2();
 		showAllDevices();
 		//updateData(myquery);
+
 	}
 	public Query testSensorV2(){
 		System.out.println("Sensor V2.... Testing..........");
@@ -129,6 +133,20 @@ public class IoTPlatformApplication implements CommandLineRunner {
 			throw new RuntimeException(e);
 		}
 		return String.format("Published Payload: %s!", payload);
+	}
+
+	@GetMapping("/subscribe/{topic}")
+	public String subscriber(@PathVariable String topic) {
+		double value;
+		try {
+			System.out.println("get-subscribe topic:" + topic);
+
+			value = MqttSubscriber.getJsonPayload().getDouble("value");
+
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		return String.format("Subscribed Topic: %s \n Payload: %f", topic, value);
 	}
 
 }
