@@ -13,7 +13,7 @@ public class SensorV2 {
     private String sensorName;
     private String type;  // I/O type
     private double sensorValue;
-    //private SensorData sensor_data;
+    private SensorData sensor_data;
     private Date creationDate;
 
     private Long timeStamp;
@@ -71,7 +71,7 @@ public class SensorV2 {
     }
 
     public void setsensorValue(double sensorValue) {
-        sensorValue = sensorValue;
+        this.sensorValue = sensorValue;
     }
 
     public Long getTimeStamp() {
@@ -82,13 +82,13 @@ public class SensorV2 {
         this.timeStamp = timeStamp;
     }
 
-    //    public SensorData getSensor_data() {
-//        return sensor_data;
-//    }
-//
-//    public void setSensor_data(SensorData sensor_data) {
-//        this.sensor_data = sensor_data;
-//    }
+    public SensorData getSensor_data() {
+        return sensor_data;
+    }
+
+    public void setSensor_data(SensorData sensor_data) {
+        this.sensor_data = sensor_data;
+    }
 
     public int getsensorId() {
         return sensorId;
