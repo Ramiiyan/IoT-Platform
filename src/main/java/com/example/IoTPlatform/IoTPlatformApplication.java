@@ -25,7 +25,7 @@ import java.util.List;
 @SpringBootApplication
 @RestController
 @EnableMongoRepositories
-public class IoTPlatformApplication implements CommandLineRunner {
+public class IoTPlatformApplication{
 
 	@Autowired
 	DeviceRepository deviceItemRepo;
@@ -40,28 +40,19 @@ public class IoTPlatformApplication implements CommandLineRunner {
 	MongoTemplate mongoTemplate;
 	public static void main(String[] args) throws Exception {
 
-		ApplicationContext context = SpringApplication.run(IoTPlatformApplication.class, args);
-		//SpringApplication.run(IoTPlatformApplication.class, args);
+		//ApplicationContext context = SpringApplication.run(IoTPlatformApplication.class, args);
+		SpringApplication.run(IoTPlatformApplication.class, args);
 
-		mqttPublisher = context.getBean(MqttPublisher.class);
-		mqttPublisher.publish("mytopic2", "{\"test\":\"HelloMQTT\"}");
+//		mqttPublisher = context.getBean(MqttPublisher.class);
+//		mqttPublisher.publish("mytopic2", "{\"test\":\"HelloMQTT\"}");
 
-		mqttSubscriber = context.getBean(MqttSubscriber.class);
-		mqttSubscriber.subscribe("myTopic");
+//		mqttSubscriber = context.getBean(MqttSubscriber.class);
+//		mqttSubscriber.subscribe("myTopic");
 //		double val= MqttResponse.getValue();
 //		System.out.println("getValue :" + val);
 		//mqttSubscriber.subscribe("mytopic");
 	}
 
-	public void run(String... args){
-//		double val= MqttResponse.getValue();
-//		System.out.println("getValue :" + val);
-		//createDeviceSensor();
-		//Query myquery= testSensorV2();
-		showAllDevices();
-		//updateData(myquery);
-
-	}
 	public Query testSensorV2(){
 		System.out.println("Sensor V2.... Testing..........");
 		//Device d2 = new Device("66","testD66","Esp32","/D66_pub/","/D66_sub/");
@@ -119,34 +110,34 @@ public class IoTPlatformApplication implements CommandLineRunner {
 
 
 
-	@GetMapping("/hello")
-	public String hello(@RequestParam(value = "name", defaultValue = "World") String name){
-		return String.format("Hello %s!", name);
-	}
-
-	@GetMapping("/publish")
-	public String publisher(@RequestParam(value = "payload", defaultValue = "{\"test\":\"passed\"}") String payload){
-
-		try {
-			mqttPublisher.publish("mytopic2", payload);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-		return String.format("Published Payload: %s!", payload);
-	}
-
-	@GetMapping("/subscribe/{topic}")
-	public String subscriber(@PathVariable String topic) {
-		double value;
-		try {
-			System.out.println("get-subscribe topic:" + topic);
-
-			value = MqttSubscriber.getJsonPayload().getDouble("value");
-
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-		return String.format("Subscribed Topic: %s \n Payload: %f", topic, value);
-	}
+//	@GetMapping("/hello")
+//	public String hello(@RequestParam(value = "name", defaultValue = "World") String name){
+//		return String.format("Hello %s!", name);
+//	}
+//
+//	@GetMapping("/publish")
+//	public String publisher(@RequestParam(value = "payload", defaultValue = "{\"test\":\"passed\"}") String payload){
+//
+//		try {
+//			mqttPublisher.publish("mytopic2", payload);
+//		} catch (Exception e) {
+//			throw new RuntimeException(e);
+//		}
+//		return String.format("Published Payload: %s!", payload);
+//	}
+//
+//	@GetMapping("/subscribe/{topic}")
+//	public String subscriber(@PathVariable String topic) {
+//		double value;
+//		try {
+//			System.out.println("get-subscribe topic:" + topic);
+//
+//			value = MqttSubscriber.getJsonPayload().getDouble("value");
+//
+//		} catch (Exception e) {
+//			throw new RuntimeException(e);
+//		}
+//		return String.format("Subscribed Topic: %s \n Payload: %f", topic, value);
+//	}
 
 }
