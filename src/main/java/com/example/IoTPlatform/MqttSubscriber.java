@@ -1,17 +1,10 @@
 package com.example.IoTPlatform;
 
-import com.example.IoTPlatform.model.MqttResponse;
 import com.example.IoTPlatform.model.SensorData;
-import com.example.IoTPlatform.model.SensorV2;
-import com.example.IoTPlatform.service.SensorV2Service;
+import com.example.IoTPlatform.model.Sensor;
 import org.eclipse.paho.client.mqttv3.*;
-import org.eclipse.paho.client.mqttv3.internal.wire.MqttWireMessage;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -21,10 +14,9 @@ public class MqttSubscriber implements MqttCallback {
     private final int qos = 0;
     private static JSONObject jsonPayload;
 
-    @Autowired
-    private SensorV2Service sensorV2Service;
 
-    SensorV2 s23 = new SensorV2(663,"MyTestSensorV2_663","input");
+
+    Sensor s23 = new Sensor("663","MyTestSensorV2_663","input");
 
     @Autowired
     public MqttSubscriber(IMqttClient mqttClient) {
@@ -55,7 +47,7 @@ public class MqttSubscriber implements MqttCallback {
         //sensorV2Service.addSensorV2(s24);
         //sensorV2Service.updateSensorV2(664,s24);
         double sensorValue =  jsonPayload.getDouble("value");
-        sensorV2Service.updateSensorV2Data(664, new SensorData(sensorValue));
+
 
 //        Update update = new Update().push("samples", new SensorData(33.9))
 //                .min("first", s23.getTimeStamp())

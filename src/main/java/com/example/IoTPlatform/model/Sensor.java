@@ -1,56 +1,85 @@
 package com.example.IoTPlatform.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 
-
+@Document
 public class Sensor {
 
     @Id
-    private int sensor_id;
-    private String sensor_name;
+    private String sensorId;
+    private String sensorName;
     private String type;  // I/O type
+    private double sensorValue;
     private SensorData sensor_data;
     private Date creationDate;
+
+    private Long timeStamp;
 
     public Sensor() {
     }
 
-    public Sensor(int sensor_id, String sensor_name, String type){
+    public Sensor(String sensorId, String sensorName, String type){
         super();
-        this.sensor_id = sensor_id;
-        this.sensor_name = sensor_name;
+        this.sensorId = sensorId;
+        this.sensorName = sensorName;
         this.type = type;
         this.creationDate = new Date();
     }
 
-    public Sensor(int sensor_id, String sensor_name, String type, SensorData sensor_data){
+    public Sensor(String sensorId, String sensorName, String type, Long timeStamp){
         super();
-        this.sensor_id = sensor_id;
-        this.sensor_name = sensor_name;
+        this.sensorId = sensorId;
+        this.sensorName = sensorName;
         this.type = type;
-        this.sensor_data = sensor_data;
+        this.timeStamp = timeStamp;
         this.creationDate = new Date();
     }
 
-    public Sensor(int sensor_id, String sensor_name, String type, SensorData sensor_data, Date creationDate) {
-        this.sensor_id = sensor_id;
-        this.sensor_name = sensor_name;
+    public Sensor(String sensorId, String sensorName, String type, double sensorValue){
+        super();
+        this.sensorId = sensorId;
+        this.sensorName = sensorName;
         this.type = type;
-        this.sensor_data = sensor_data;
+        this.sensorValue = sensorValue;
+        this.creationDate = new Date();
+    }
+
+    public Sensor(String sensorId, String sensorName, String type, double sensorValue, Date creationDate) {
+        this.sensorId = sensorId;
+        this.sensorName = sensorName;
+        this.type = type;
+        this.sensorValue = sensorValue;
         this.creationDate = creationDate;
     }
 
     @Override
     public String toString() {
         return "Sensor{" +
-                "sensor_id=" + sensor_id +
-                ", sensor_name='" + sensor_name + '\'' +
+                "sensorId=" + sensorId +
+                ", sensorName='" + sensorName + '\'' +
                 ", type='" + type + '\'' +
-                ", sensor_data=" + sensor_data +
+                ", sensorValue=" + sensorValue +
                 ", creationDate=" + creationDate +
                 '}';
+    }
+
+    public double getsensorValue() {
+        return sensorValue;
+    }
+
+    public void setsensorValue(double sensorValue) {
+        this.sensorValue = sensorValue;
+    }
+
+    public Long getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(Long timeStamp) {
+        this.timeStamp = timeStamp;
     }
 
     public SensorData getSensor_data() {
@@ -61,20 +90,20 @@ public class Sensor {
         this.sensor_data = sensor_data;
     }
 
-    public int getSensor_id() {
-        return sensor_id;
+    public String getSensorId() {
+        return sensorId;
     }
 
-    public void setSensor_id(int sensor_id) {
-        this.sensor_id = sensor_id;
+    public void setSensorId(String sensorId) {
+        this.sensorId = sensorId;
     }
 
-    public String getSensor_name() {
-        return sensor_name;
+    public String getsensorName() {
+        return sensorName;
     }
 
-    public void setSensor_name(String sensor_name) {
-        this.sensor_name = sensor_name;
+    public void setsensorName(String sensorName) {
+        this.sensorName = sensorName;
     }
 
     public String getType() {
