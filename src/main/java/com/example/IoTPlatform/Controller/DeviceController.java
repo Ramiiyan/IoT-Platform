@@ -24,7 +24,7 @@ public class DeviceController {
         return device;
     }
 
-    @GetMapping
+    @GetMapping("/devices")
     public List<Device> listDevices(){
         return deviceRepository.findAll();
     }

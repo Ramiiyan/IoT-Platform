@@ -2,21 +2,14 @@ package com.example.IoTPlatform;
 
 import com.example.IoTPlatform.model.*;
 import com.example.IoTPlatform.repository.DeviceRepository;
-import org.eclipse.paho.client.mqttv3.MqttException;
-import org.eclipse.paho.client.mqttv3.internal.wire.MqttWireMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.ApplicationContext;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -32,9 +25,8 @@ public class IoTPlatformApplication{
 
 	List<Device> deviceList = new ArrayList<Device>();
 
-	SensorV2 s21 = new SensorV2(662,"MyTestSensorV2_662","input");
-	static MqttPublisher mqttPublisher;
-	static MqttSubscriber mqttSubscriber;
+	Sensor s21 = new Sensor("662","MyTestSensorV2_662","input");
+
 
 	@Autowired
 	MongoTemplate mongoTemplate;
@@ -59,7 +51,7 @@ public class IoTPlatformApplication{
 		s21.setTimeStamp(1573833152L);
 		s21.setsensorValue(24.2);
 		System.out.println("Criteria creation....");
-		Criteria criteria = Criteria.where("sensorId").is(s21.getsensorId())
+		Criteria criteria = Criteria.where("sensorId").is(s21.getSensorId())
 				.and("bucketSize").lt(1000)
 				.and("date").is(s21.getCreationDate());
 
@@ -69,27 +61,27 @@ public class IoTPlatformApplication{
 
 	public void updateData(Query query){
 
-		int sensorId = s21.getsensorId();
-		Update update = new Update().push("samples", new SensorData(33.9))
-				.inc("bucketSize",sensorId)
-				.min("first", s21.getTimeStamp())
-				.max("last", s21.getTimeStamp());
+//		String sensorId = s21.getSensorId();
+//		Update update = new Update().push("samples", new SensorData(33.9))
+//				.inc("bucketSize",sensorId)
+//				.min("first", s21.getTimeStamp())
+//				.max("last", s21.getTimeStamp());
 
-		mongoTemplate.upsert(query,update, SensorV2.class);
+		//mongoTemplate.upsert(query,update, Sensor.class);
 	}
 
-	public void createDeviceSensor(){
-
-		System.out.println("Device and Sensors creation initiated");
-		Device d1 = new Device("3","testD3","Esp32","/D3_pub/","/D3_sub/");
-		ArrayList<Sensor> mySensors = new ArrayList<Sensor>();
-		mySensors.add(new Sensor(1124,"sm3","input", new SensorData(44.85)));
-		mySensors.add(new Sensor(1115,"sm4","input", new SensorData(46.14)));
-		mySensors.add(new Sensor(1117,"sm7","input", new SensorData(33.5)));
-		d1.setSensor(mySensors);
-
-		deviceItemRepo.save(d1);
-		System.out.println("Device and Sensors creation completed.");
+//	public void createDeviceSensor(){
+//
+//		System.out.println("Device and Sensors creation initiated");
+//		Device d1 = new Device("3","testD3","Esp32","/D3_pub/","/D3_sub/");
+//		ArrayList<Sensor> mySensors = new ArrayList<Sensor>();
+//		mySensors.add(new Sensor(1124,"sm3","input", new SensorData(44.85)));
+//		mySensors.add(new Sensor(1115,"sm4","input", new SensorData(46.14)));
+//		mySensors.add(new Sensor(1117,"sm7","input", new SensorData(33.5)));
+//		d1.setSensor(mySensors);
+//
+//		deviceItemRepo.save(d1);
+//		System.out.println("Device and Sensors creation completed.");
 
 //		System.out.println("Sample data insertion..");
 //		mySensors.get(0).setSensor_data(new SensorData(44.85));
@@ -97,7 +89,7 @@ public class IoTPlatformApplication{
 //		mySensors.get(0).setSensor_data(new SensorData(46.52));
 //		mySensors.get(0).setSensor_data(new SensorData(47.53));
 
-	}
+//	}
 
 	public void showAllDevices(){
 
