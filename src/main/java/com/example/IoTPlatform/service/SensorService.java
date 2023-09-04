@@ -6,13 +6,15 @@ import com.example.IoTPlatform.model.Sensor;
 import java.util.List;
 
 public interface SensorService {
-    public List<Sensor> getSensorV2();
+    public List<Sensor> getAllSensors();
 
-    public Sensor addSensorV2(Sensor sensorV2);
+    public Sensor getSensorById(String id);
 
-    public Sensor deleteSensorV2(int id );
+    public Sensor addSensor(Sensor sensor);
 
-    public Sensor updateSensorV2(int id , Sensor sensorV2);
+    public Sensor deleteSensorById(String id );
 
-    public Sensor updateSensorV2Data(int id, SensorData sensorData);
+    public Sensor updateSensor(String id , Sensor sensor);
+
+    public Sensor updateSensorData(String id, SensorData sensorData);
 }

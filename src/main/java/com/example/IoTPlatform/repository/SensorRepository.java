@@ -7,10 +7,10 @@ import org.springframework.data.mongodb.repository.Query;
 
 import java.util.List;
 
-public interface SensorRepository extends MongoRepository<Sensor,Integer> {
+public interface SensorRepository extends MongoRepository<Sensor,String> {
 
     @Query("{deviceName:'?0'}")
-    List<Sensor> findItemBySensorName(String deviceName);
+    List<Sensor> findItemBySensorName(String sensorName);
 
 
     public long count();

@@ -16,44 +16,53 @@ public class SensorServiceImpl implements SensorService {
     private SensorRepository sensorRepository;
 
     @Override
-    public List<Sensor> getSensorV2() {
+    public List<Sensor> getAllSensors() {
         return sensorRepository.findAll();
     }
 
     @Override
-    public Sensor addSensorV2(Sensor sensorV2) {
-        return sensorRepository.save(sensorV2);
+    public Sensor getSensorById(String id) {
+        return sensorRepository.findById(id).orElseThrow();
+    }
+
+    public List<Sensor> getSensorByName(String sensorName){
+        return  sensorRepository.findItemBySensorName(sensorName);
     }
 
     @Override
-    public Sensor deleteSensorV2(int id) {
-        Sensor sensorV2 = sensorRepository.findById(id).get();
-        sensorRepository.delete(sensorV2);
-        return sensorV2;
+    public Sensor addSensor(Sensor sensor) {
+        return sensorRepository.save(sensor);
     }
 
     @Override
-    public Sensor updateSensorV2(int id, Sensor sensorV2) {
-
-        Sensor sensorV2Var = sensorRepository.findById(id).get();
-        sensorV2Var.setCreationDate(sensorV2.getCreationDate());
-        sensorV2Var.setTimeStamp(sensorV2.getTimeStamp());
-        sensorV2Var.setsensorValue(sensorV2.getsensorValue());
-        sensorV2Var.setType(sensorV2.getType());
-        sensorV2Var.setsensorName(sensorV2.getsensorName());
-        sensorV2Var.setSensor_data(new SensorData(0.00));
-        sensorRepository.save(sensorV2Var);
-
-        return sensorV2Var;
+    public Sensor deleteSensorById(String id) {
+        Sensor sensor = sensorRepository.findById(id).orElseThrow();
+        sensorRepository.delete(sensor);
+        return sensor;
     }
 
     @Override
-    public Sensor updateSensorV2Data(int id, SensorData sensorData) {
-        Sensor sensorV2Data = sensorRepository.findById(id).get();
-        sensorV2Data.setSensor_data(sensorData);
-        sensorRepository.save(sensorV2Data);
+    public Sensor updateSensor(String id, Sensor sensor) {
 
-        return sensorV2Data;
+        Sensor sensorVar = sensorRepository.findById(id).orElseThrow();
+        sensorVar.setCreationDate(sensor.getCreationDate());
+        sensorVar.setTimeStamp(sensor.getTimeStamp());
+        sensorVar.setsensorValue(sensor.getsensorValue());
+        sensorVar.setType(sensor.getType());
+        sensorVar.setsensorName(sensor.getsensorName());
+        sensorVar.setSensor_data(new SensorData(0.00));
+        sensorRepository.save(sensorVar);
+
+        return sensorVar;
+    }
+
+    @Override
+    public Sensor updateSensorData(String id, SensorData newSensorData) {
+        Sensor sensorData = sensorRepository.findById(id).orElseThrow();
+        sensorData.setSensor_data(newSensorData);
+        sensorRepository.save(sensorData);
+
+        return sensorData;
     }
 
 }
