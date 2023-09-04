@@ -3,6 +3,7 @@ package com.example.IoTPlatform.Controller;
 import com.example.IoTPlatform.model.Device;
 import com.example.IoTPlatform.model.Sensor;
 import com.example.IoTPlatform.repository.SensorRepository;
+import com.example.IoTPlatform.service.impl.SensorServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,37 +12,37 @@ import java.util.List;
 @RestController
 public class SensorController {
 
+
     @Autowired
-    private SensorRepository sensorRepository;
+    private SensorServiceImpl sensorService;
 
 
     @PostMapping("/addSensor")
     public Sensor addSensor(@RequestBody Sensor sensor){
-        sensorRepository.save(sensor);
-
+        sensorService.addSensor(sensor);
         return sensor;
     }
 
-    @GetMapping
+    @GetMapping("/sensors")
     public List<Sensor> listSensors(){
-        return sensorRepository.findAll();
+        return sensorService.getAllSensors();
     }
 
-    @PutMapping("/{sensorId}")
+    @PutMapping("/sensor/edit/{sensorId}")
     public Sensor updateSensor(@RequestBody Sensor sensor, @PathVariable String sensorId) {
-        sensor.setSensorId(sensorId);
-        sensorRepository.save(sensor);
-        return sensor;
+
+        return sensorService.updateSensor(sensorId, sensor);
     }
 
-    @DeleteMapping("/{sensorId}")
-    public int deleteSensor(@PathVariable int sensorId) {
-        sensorRepository.deleteById(sensorId);
+    @DeleteMapping("/sensor/delete/{sensorId}")
+    public String deleteSensor(@PathVariable String sensorId) {
+        sensorService.deleteSensorById(sensorId);
         return sensorId;
     }
 
     @GetMapping("/{sensorName}")
     public List<Sensor> findSensorByName(@PathVariable String sensorName) {
-        return sensorRepository.findItemBySensorName(sensorName);
+
+        return sensorService.getSensorByName(sensorName);
     }
 }
