@@ -40,8 +40,8 @@ public class SensorController {
         return sensorId;
     }
 
-    @GetMapping("/{sensorName}")
-    public List<Sensor> findSensorByName(@PathVariable String sensorName) {
+    @GetMapping()
+    public List<Sensor> findSensorByName(@RequestParam(value="sensorName") String sensorName) {
 
         return sensorService.getSensorByName(sensorName);
     }

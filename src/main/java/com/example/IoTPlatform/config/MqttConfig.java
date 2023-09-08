@@ -1,4 +1,4 @@
-package com.example.IoTPlatform;
+package com.example.IoTPlatform.config;
 
 import org.eclipse.paho.client.mqttv3.IMqttClient;
 import org.eclipse.paho.client.mqttv3.MqttClient;
