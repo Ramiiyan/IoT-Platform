@@ -36,6 +36,7 @@ public class MqttMessagingService {
             String message = new String(payload);
             System.out.printf("[%s] Received Message: %s \n", MQTT_SERVICE, message);
 
+
         });
     }
 

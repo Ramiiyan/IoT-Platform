@@ -1,0 +1,20 @@
+[
+  {
+    "sensorId":"12iejd012fz",
+    "sensorName":"S02",
+    "Type":"Soil Moisture",
+    "sensorValue":39
+  },
+  {
+    "sensorId":"1jd0122d012",
+    "sensorName":"S03",
+    "Type":"Soil Moisture",
+    "sensorValue":39
+  },
+  {
+    "sensorId":"1jd012jd012",
+    "sensorName":"S024",
+    "Type":"Soil Moisture",
+    "sensorValue":39
+  }
+]
