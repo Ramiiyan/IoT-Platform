@@ -1,5 +1,6 @@
 package com.example.IoTPlatform.Controller;
 
+import com.example.IoTPlatform.Socket.SocketClient;
 import com.example.IoTPlatform.service.MqttMessagingService;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ public class MqttController {
     @Autowired
     private ConfigurableApplicationContext context;
 
+    SocketClient socketClient = new SocketClient();
+
     @RequestMapping("/Mqtt")
     public String mqttcall() throws MqttException, InterruptedException, IOException {
 
@@ -25,7 +28,8 @@ public class MqttController {
         final String pubTopic = "pubTopic";
 
         mqttMessagingService.subscribe(subTopic);
-
+//        socketClient.socketInit();
+//        socketClient.publishSocketData();
         mqttMessagingService.publish(pubTopic, "{\"test\":\"HelloMQTT\"}", 0, false);
 
 
