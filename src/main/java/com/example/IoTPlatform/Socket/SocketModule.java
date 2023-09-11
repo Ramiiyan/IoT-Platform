@@ -31,7 +31,6 @@ public class SocketModule {
             log.info(data.toString());
             log.info("This is DataListener Data: {}",data.getMessage());
             socketService.sendMessage(data.getRoom(),"user112", senderClient, data.getMessage());
-
         };
     }
 

@@ -1,9 +1,11 @@
 package com.example.IoTPlatform.service;
 
+import com.example.IoTPlatform.Socket.SocketClient;
 import org.eclipse.paho.client.mqttv3.IMqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.MqttPersistenceException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,9 @@ public class MqttMessagingService {
     @Autowired
     private IMqttClient mqttClient;
 
+
+    private SocketClient socketClient; //WebSocket Client Initialization & Declaration.
+
     public void publish(final String topic, final String payload, int qos, boolean retained)
             throws MqttPersistenceException, MqttException, IOException, InterruptedException {
 
@@ -28,6 +33,7 @@ public class MqttMessagingService {
         mqttClient.publish(topic, mqttMessage);
         System.out.printf("[%s]Published message to topic: %s \n",MQTT_SERVICE, topic);
         System.out.printf("[%s]Message: %s \n",MQTT_SERVICE, payload);
+
     }
     public void subscribe(final String topic) throws MqttException, InterruptedException {
         mqttClient.subscribeWithResponse(topic, (tpic, msg) -> {
@@ -35,6 +41,17 @@ public class MqttMessagingService {
             byte[] payload = msg.getPayload();
             String message = new String(payload);
             System.out.printf("[%s] Received Message: %s \n", MQTT_SERVICE, message);
+
+            /* This is the Websocket Server Message data format */
+            JSONObject testJsonObj = new JSONObject();
+            testJsonObj.put("type", "CLIENT");
+            testJsonObj.put("room", "a");
+            testJsonObj.put("message", message);
+
+            /* WebSocket Implementation */
+            socketClient = new SocketClient();
+            socketClient.socketInit();
+            socketClient.publishSocketData(testJsonObj);
 
 
         });
