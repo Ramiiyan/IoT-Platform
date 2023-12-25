@@ -2,6 +2,7 @@ package com.example.IoTPlatform.config;
 
 import org.eclipse.paho.client.mqttv3.IMqttClient;
 import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -19,7 +20,9 @@ public class MqttConfig{
     @Bean
     public IMqttClient mqttClient() throws Exception {
         IMqttClient mqttClient = new MqttClient(mqttBroker, mqttClientId, new MemoryPersistence());
-        mqttClient.connect();
+        MqttConnectOptions mqttConnectOptions = new MqttConnectOptions();
+        mqttConnectOptions.setAutomaticReconnect(true);
+        mqttClient.connect(mqttConnectOptions);
         return mqttClient;
     }
 }
