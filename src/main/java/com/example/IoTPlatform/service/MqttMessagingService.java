@@ -20,7 +20,7 @@ public class MqttMessagingService {
     private IMqttClient mqttClient;
 
 
-    private SocketClient socketClient; //WebSocket Client Initialization & Declaration.
+    private SocketClient socketClient  = new SocketClient(); //WebSocket Client Initialization & Declaration.
 
     public void publish(final String topic, final String payload, int qos, boolean retained)
             throws MqttPersistenceException, MqttException, IOException, InterruptedException {
@@ -36,6 +36,9 @@ public class MqttMessagingService {
 
     }
     public void subscribe(final String topic) throws MqttException, InterruptedException {
+
+        socketClient.socketInit();
+
         mqttClient.subscribeWithResponse(topic, (tpic, msg) -> {
             /* Extracing the payload */
             byte[] payload = msg.getPayload();
@@ -49,8 +52,6 @@ public class MqttMessagingService {
             testJsonObj.put("message", message);
 
             /* WebSocket Implementation */
-            socketClient = new SocketClient();
-            socketClient.socketInit();
             socketClient.publishSocketData(testJsonObj);
 
 
