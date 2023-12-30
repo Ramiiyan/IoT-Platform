@@ -3,5 +3,5 @@ COPY my_docker_test/test_target/IoT-Platform-0.0.1-SNAPSHOT.jar IoT-Platform-0.0
 
 USER 10001
 
-#CMD ["java", "-jar", "/IoT-Platform-0.0.1-SNAPSHOT.jar"]
-ENTRYPOINT ["java","-jar","/app.jar"]
+#CMD ["java", "-jar", "/IoT-Platform-0.0.1.jar"]
+ENTRYPOINT ["java","-jar","/IoT-Platform-0.0.1.jar"]
