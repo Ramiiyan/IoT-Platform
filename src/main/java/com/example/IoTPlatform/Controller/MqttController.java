@@ -16,10 +16,10 @@ public class MqttController {
     @Autowired
     private MqttMessagingService mqttMessagingService;
 
-    @Autowired
-    private ConfigurableApplicationContext context;
+//    @Autowired
+//    private ConfigurableApplicationContext context;
 
-    SocketClient socketClient = new SocketClient();
+//    SocketClient socketClient = new SocketClient();
 
     @RequestMapping("/Mqtt")
     public String mqttcall() throws MqttException, InterruptedException, IOException {

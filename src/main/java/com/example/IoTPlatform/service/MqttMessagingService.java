@@ -38,7 +38,11 @@ public class MqttMessagingService {
     public void subscribe(final String topic) throws MqttException, InterruptedException {
 
         socketClient.socketInit();
-
+        if (!mqttClient.isConnected()) {
+            // You may want to handle reconnection here or throw an exception
+            System.out.println("MQTT client is not connected. Reconnecting...");
+            mqttClient.connect();
+        }
         mqttClient.subscribeWithResponse(topic, (tpic, msg) -> {
             /* Extracing the payload */
             byte[] payload = msg.getPayload();
