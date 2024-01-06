@@ -19,7 +19,7 @@ public class MqttMessagingService {
     @Autowired
     private IMqttClient mqttClient;
 
-
+    private int i = 0;
     private SocketClient socketClient  = new SocketClient(); //WebSocket Client Initialization & Declaration.
 
     public void publish(final String topic, final String payload, int qos, boolean retained)
@@ -36,30 +36,32 @@ public class MqttMessagingService {
 
     }
     public void subscribe(final String topic) throws MqttException, InterruptedException {
-
+        i++;
+        System.out.printf("MQTT subscribing... [%d]", i);
         socketClient.socketInit();
         if (!mqttClient.isConnected()) {
             // You may want to handle reconnection here or throw an exception
-            System.out.println("MQTT client is not connected. Reconnecting...");
+            System.out.printf("MQTT client is not connected. Reconnecting...[%d]", i);
             mqttClient.connect();
         }
-        mqttClient.subscribeWithResponse(topic, (tpic, msg) -> {
-            /* Extracing the payload */
-            byte[] payload = msg.getPayload();
-            String message = new String(payload);
-            System.out.printf("[%s] Received Message: %s \n", MQTT_SERVICE, message);
-
-            /* This is the Websocket Server Message data format */
-            JSONObject testJsonObj = new JSONObject();
-            testJsonObj.put("type", "CLIENT");
-            testJsonObj.put("room", "a");
-            testJsonObj.put("message", message);
-
-            /* WebSocket Implementation */
-            socketClient.publishSocketData(testJsonObj);
-
-
-        });
+//        mqttClient.subscribeWithResponse(topic, (tpic, msg) -> {
+//            /* Extracing the payload */
+//            byte[] payload = msg.getPayload();
+//            String message = new String(payload);
+//            System.out.printf("[%s] Received Message: %s \n", MQTT_SERVICE, message);
+//
+//            /* This is the Websocket Server Message data format */
+//            JSONObject testJsonObj = new JSONObject();
+//            testJsonObj.put("type", "CLIENT");
+//            testJsonObj.put("room", "a");
+//            testJsonObj.put("message", message);
+//
+//            /* WebSocket Implementation */
+//            socketClient.publishSocketData(testJsonObj);
+//
+//
+//        });
+        mqttClient.subscribe(topic);
     }
 
 }
