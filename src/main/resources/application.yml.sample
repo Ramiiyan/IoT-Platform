@@ -1,7 +1,15 @@
 mqtt:
-  broker: "tcp://<broker-url>:<port>"
-  clientId: "<client-Id>"
+  broker: "<broker-url>" #eg:"tcp://broker.emqx.io:1883"
+  clientId: "<client-id>"
 
 spring.data.mongodb:
-  uri: <Mongodb-connection-url>
-  database: <database-name>
+#  host: "127.0.0.1" # Not Working in docker
+  host: "0.0.0.0" # For docker container
+  port: 27017
+  database: <mongodb name>
+
+# Socket.IO server configuration
+socketio.server:
+#  host: "localhost" # Not Working in docker
+  host: "0.0.0.0" # For Docker container
+  port: 9092
