@@ -1,0 +1,13 @@
+version: "3.8"
+services:
+  rovo-app:
+    image: rovo:0.0.1
+    container_name: "rovo-app"
+    ports:
+      - 8080:8080
+      - 9092:9092
+  mongodb:
+    image: mongo:latest
+    container_name: "mongodb"
+    ports:
+      - 27070:27017
