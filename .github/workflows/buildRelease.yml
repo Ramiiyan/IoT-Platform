@@ -16,8 +16,6 @@ jobs:
       # Checkout to current
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          tag_name: ReleaseBase
 
       # Use the setup-java action to configure the Java environment
       - name: 'Set up JDK 17'
@@ -45,4 +43,5 @@ jobs:
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
+          tag_name: ReleaseBase
           files: target/*.jar # Specify the files to be included in the release (JAR files in the target directory)
