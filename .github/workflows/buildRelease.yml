@@ -12,12 +12,23 @@ jobs:
     # Set the environment for this job (place where these workflow will run below steps and cmds)
     runs-on: ubuntu-latest
     steps:
+      # Checkout to current
+      - name: Checkout
+        uses: actions/checkout@v4
+
       # Use the setup-java action to configure the Java environment
       - name: 'Set up JDK 17'
         uses: actions/setup-java@v3
         with:
           java-version: '17'
           distribution: 'temurin'
+          cache: 'maven'
+
+      - name: 'path'
+        run: |
+          ls -lrth
+          ls /home/runner/work/IoT-Platform/
+          ls /home/runner/work/IoT-Platform/IoT-Platform
 
       # Run Maven command to build the project
       - name: Build with Maven
