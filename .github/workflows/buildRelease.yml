@@ -39,6 +39,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
+      - name: 'path'
+        run: |
+          ls -lrth
+          ls /home/runner/work/IoT-Platform/
+          ls -lrth /home/runner/work/IoT-Platform/target/
       # Use the softprops/action-gh-release action to create a GitHub release
       - name: Create Release
         uses: softprops/action-gh-release@v2
