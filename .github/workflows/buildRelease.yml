@@ -78,7 +78,7 @@ jobs:
           
             updated_tag=$new_github_tag_name
           fi
-          
+          echo "updated_tag: $updated_tag"
           gh release upload $updated_tag  ${{ env.TARGET_PATH }}/*.${{ env.TARGET_FILE_TYPE }}
           echo "Artifacts uploaded to GitHub release."
 
