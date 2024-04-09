@@ -39,9 +39,9 @@ jobs:
         run: |
           ls -lrth
           echo "**************************"
-          ls -lrth /home/runner/work/IoT-Platform/
+          ls -lrth /home/runner/work/IoT-Platform/IoT-Platform/target
           echo "**************************"
-          ls -lrth /home/runner/work/IoT-Platform/target/
+          ls -lrth target
 
       - name: Release GitHub Artifacts
         id: release_github_artifacts
