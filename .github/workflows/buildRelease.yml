@@ -61,7 +61,7 @@ jobs:
               -e "s|<mongodb_host>|\"${{ env.MONGODB_HOST }}\"|g" \
               -e "s|<mongodb_atlas_uri>|\"$escaped_broker_url\"|g" \
               -e "s|<mongodb_port>|${{ env.MONGODB_PORT }}|g" \
-              -e "s|<mongodb_database_name>|\"${{ env.MONGODB_DATABASE_NAME }}\"|g" \
+              -e "s|<mongodb_database_name>|${{ env.MONGODB_DATABASE_NAME }}|g" \
               -e "s|<socketio_host_url>|\"${{ env.SOCKETIO_HOST_URL }}\"|g" \
               -e "s|<socketio_server_port>|${{ env.SOCKETIO_PORT }}|g" \
               "$sample_file" > "$output_file"
