@@ -61,7 +61,14 @@ jobs:
               -e "s|<socketio_host_url>|\"${{ env.SOCKETIO_HOST_URL }}\"|g" \
               -e "s|<socketio_server_port>|${{ env.SOCKETIO_PORT }}|g" \
               "$sample_file" > "$output_file"
+          
+          # Check if the application.yml file created
+          if [[ ! -f "$output_file" ]]; then
+            echo "Error: $sample_file not found."
+            exit 1
+          fi
           echo "New application.yml file created successfully."
+          cat src/main/resources/application.yml
 
       # Run Maven command to build the project
       - name: Build with Maven
@@ -71,7 +78,7 @@ jobs:
         run: |
           ls -lrth
           echo "**************************"
-          ls -lrth src
+          ls -lrth src/main/resources
           echo "**************************"
           ls -lrth target
 
