@@ -1,24 +1,20 @@
 mqtt:
-  broker: "<broker-url>" #eg:"tcp://broker.emqx.io:1883"
-  clientId: "<client-id>"
+  broker: <mqtt_broker_url> #eg:"tcp://broker.emqx.io:1883"
+  clientId: <mqtt_client_id>
 
-  #spring.data.mongodb:
-  #  uri: <URI-mongodb>
-  #  database: <database-name>
+#spring.data.mongodb:
+#  uri: <mongodb_uri>
+#  database: <database_name>
 
 spring.data.mongodb:
-#  host: "127.0.0.1" # Not Working in docker
-  host: "0.0.0.0" # For docker container
-# host: "host.docker.internal" # For docker container
-  port: 27017
-  database: <mongodb name>
-
-  #socket-server:
-  #  host: 192.168.8.136  # mention your “IP address” not “localhost” for connecting to socket from other devices
-  #  port: 8085
+#  host: "127.0.0.1"            # Not Working in docker
+#  host: "0.0.0.0"              # For docker container
+  host: <mongodb_host>          #eg: "host.docker.internal"  # For docker container
+  port: <mongodb_port>          # default 27017
+  database: <mongodb_database_name>
 
 # Socket.IO server configuration
 socketio.server:
-#  host: "localhost" # Not Working in docker
-  host: "0.0.0.0" # For Docker container
-  port: 9092
+#  host: "localhost"            # Not Working in docker
+  host:  <socketio_host_url>    # default:"0.0.0.0" # For Docker container
+  port: <socketio_server_port>  # default 9092

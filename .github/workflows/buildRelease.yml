@@ -18,6 +18,14 @@ jobs:
       ENTRY_POINT: pom.xml
       TARGET_PATH: target
       TARGET_FILE_TYPE: jar
+      MQTT_BROKER_URL: ${{ vars.MQTT_BROKER_URL }}
+      MQTT_CLIENT_ID: ${{ vars.MQTT_CLIENT_ID }}
+      MONGODB_HOST: ${{ vars.MONGODB_HOST }}
+      MONGODB_PORT: ${{ vars.MONGODB_PORT }}
+      MONGODB_DATABASE_NAME: ${{ vars.MONGODB_DATABASE_NAME }}
+      SOCKETIO_HOST_URL: ${{ vars.SOCKETIO_HOST_URL }}
+      SOCKETIO_PORT: ${{ vars.SOCKETIO_PORT }}
+
     steps:
       # Checkout to current
       - name: Checkout
@@ -30,6 +38,30 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: 'maven'
+
+      # Create application yml file
+      - name: "generate application file"
+        run: |
+          # Define the paths
+          sample_file="src/main/resources/application.yml.sample"
+          output_file="src/main/resources/application.yml"
+          
+          # Check if the sample file exists
+          if [[ ! -f "$sample_file" ]]; then
+            echo "Error: $sample_file not found."
+            exit 1
+          fi
+          
+          # Replace placeholders in the sample file with environment variables
+          sed -e "s|<mqtt_broker_url>|\"${{ env.MQTT_BROKER_URL }}\"|g" \
+              -e "s|<mqtt_client_id>|\"${{ env.MQTT_CLIENT_ID }}\"|g" \
+              -e "s|<mongodb_host>|\"${{ env.MONGODB_HOST }}\"|g" \
+              -e "s|<mongodb_port>|${{ env.MONGODB_PORT }}|g" \
+              -e "s|<mongodb_database_name>|\"${{ env.MONGODB_DATABASE_NAME }}\"|g" \
+              -e "s|<socketio_host_url>|\"${{ env.SOCKETIO_HOST_URL }}\"|g" \
+              -e "s|<socketio_server_port>|${{ env.SOCKETIO_PORT }}|g" \
+              "$sample_file" > "$output_file"
+          echo "New application.yml file created successfully."
 
       # Run Maven command to build the project
       - name: Build with Maven
