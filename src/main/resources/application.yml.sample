@@ -9,7 +9,8 @@ mqtt:
 spring.data.mongodb:
 #  host: "127.0.0.1"            # Not Working in docker
 #  host: "0.0.0.0"              # For docker container
-  host: <mongodb_host>          #eg: "host.docker.internal"  # For docker container
+#  host: <mongodb_host>          #eg: "host.docker.internal"  # For docker container
+  uri: <mongodb_atlas_uri>
   port: <mongodb_port>          # default 27017
   database: <mongodb_database_name>
 
