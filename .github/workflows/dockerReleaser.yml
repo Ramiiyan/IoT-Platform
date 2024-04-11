@@ -1,0 +1,54 @@
+name: "Docker Image Build & Releaser"
+
+# Define when to trigger the workflow (on each push to the main branch)
+## Whatever push changes occurs to main branch, this workflow will trigger.
+on:
+  workflow_dispatch:
+
+jobs:
+  release_Docker:
+    # Set the environment for this job (place where these workflow will run below steps and cmds)
+    runs-on: ubuntu-latest
+    env:
+      GIT_ORG: Ramiiyan
+      REPOSITORY: IoT-Platform
+      ENTRY_POINT: pom.xml
+      TARGET_PATH: target
+      TARGET_FILE_TYPE: jar
+      MQTT_BROKER_URL: ${{ vars.MQTT_BROKER_URL }}
+      MQTT_CLIENT_ID: ${{ vars.MQTT_CLIENT_ID }}
+      MONGODB_ATLAS_URI: ${{ secrets.MONGODB_ATLAS_URI }}
+      MONGODB_HOST: ${{ vars.MONGODB_HOST }}
+      MONGODB_PORT: ${{ vars.MONGODB_PORT }}
+      MONGODB_DATABASE_NAME: ${{ vars.MONGODB_DATABASE_NAME }}
+      SOCKETIO_HOST_URL: ${{ vars.SOCKETIO_HOST_URL }}
+      SOCKETIO_PORT: ${{ vars.SOCKETIO_PORT }}
+
+    steps:
+      # Checkout to current
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Download the required Jars to create docker image.
+      - name: Download GitHub Artifacts
+        id: download_github_artifacts
+        run: |
+          echo "${{secrets.GIT_ACTION_PAT}}" | gh auth login --with-token # GitHub cli login with PAT
+          latest_tag_name=$(gh release view --repo ${{ env.GIT_ORG }}/${{ env.REPOSITORY }} --json tagName --jq '.tagName' || true)
+          
+          # Downloading the latest tag version.
+          gh release download $latest_tag_name -R ${{ env.GIT_ORG }}/${{ env.REPOSITORY }}  --pattern '*.jar'
+          
+          mkdir -p target
+          mv *.jar target
+
+      # Download Docker CLI
+      - name: 'Set up Docker'
+        run: |
+          sudo apt-get update
+          sudo apt-get install curl
+          
+          curl -fsSL https://get.docker.com/ | sh
+          sudo usermod -aG docker tester
+          
+          docker -h
