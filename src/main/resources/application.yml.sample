@@ -6,7 +6,7 @@ spring.data.mongodb:
   uri: <mongodb_atlas_uri>
   database: <mongodb_database_name>
 
-spring.data.mongodb:
+#spring.data.mongodb:
 #  host: "127.0.0.1"            # Not Working in docker
 #  host: "0.0.0.0"              # For docker container
 #  host: <mongodb_host>          #eg: "host.docker.internal"  # For docker container
