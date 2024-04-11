@@ -1,0 +1,20 @@
+mqtt:
+  broker: "tcp://broker.emqx.io:1883" #eg:"tcp://broker.emqx.io:1883"
+  clientId: "subscribe_client"
+
+#spring.data.mongodb:
+#  uri: mongodb+srv://ramiiyan:1fbMdFKoLS0AT6ax@cluster0.l7iuswp.mongodb.net/Device?retryWrites=true&w=majority
+#  database: Device
+
+spring.data.mongodb:
+#  host: "127.0.0.1"            # Not Working in docker
+#  host: "0.0.0.0"              # For docker container
+  host: "host.docker.internal"  # For docker container
+  port: 27017                   # default 27017
+  database: agrio_db
+
+# Socket.IO server configuration
+socketio.server:
+#  host: "localhost"            # Not Working in docker
+  host: "0.0.0.0"               # default:"0.0.0.0" # For Docker container
+  port: 9092                    # default 9092
