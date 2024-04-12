@@ -3,6 +3,7 @@ name: "Docker Image Build & Releaser"
 # Define when to trigger the workflow (on each push to the main branch)
 ## Whatever push changes occurs to main branch, this workflow will trigger.
 on:
+  workflow_call:
   workflow_dispatch:
 
 jobs:
