@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build_Release:
+  maven_build_Release:
     # Set the environment for this job (place where these workflow will run below steps and cmds)
     runs-on: ubuntu-latest
     env:
@@ -130,4 +130,5 @@ jobs:
           echo "NEW_TAG_VERSION=$updated_tag"
 
   docker_image_build_push:
+    needs: [ maven_build_Release ]
     uses: ./.github/workflows/dockerReleaser.yml
