@@ -129,10 +129,5 @@ jobs:
 
           echo "NEW_TAG_VERSION=$updated_tag"
 
-      # Use the softprops/action-gh-release action to create a GitHub release
-#      - name: Create Release
-#        uses: softprops/action-gh-release@v2
-#        with:
-#          token: ${{ secrets.GIT_ACTION_PAT }}
-#          tag_name: ReleaseBase
-#          files: target/*.jar # Specify the files to be included in the release (JAR files in the target directory)
+  docker_image_build_push:
+    uses: ./.github/workflows/dockerReleaser.yml
