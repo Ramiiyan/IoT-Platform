@@ -65,11 +65,12 @@ jobs:
 
       # Build & Upload Docker Image
       - name: Build & Push Image
+        env:
+          ARTIFACT_VERSION: ${{ steps.download_github_artifacts.outputs.ARTIFACT_VERSION }}
         run: |
-          ARTIFACT_TAGD=${{ steps.download_github_artifacts.outputs.ARTIFACT_VERSION }}
-          echo $ARTIFACT_TAGD
-          docker build -t ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ ARTIFACT_TAG }} .
+          
+          docker build -t ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.ARTIFACT_VERSION }} .
           echo "docker image build successfully."
           
-          docker push ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ ARTIFACT_TAG }}
+          docker push ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.ARTIFACT_VERSION }}
           echo "docker image pushed successfully."
