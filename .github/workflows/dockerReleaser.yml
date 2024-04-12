@@ -46,7 +46,8 @@ jobs:
           mv *.jar target
           
           ls -lrth target
-          echo "ARTIFACT_VERSION=$latest_tag_name" >> $GITHUB_OUTPUT
+          ARTIFACT_VERSION=$latest_tag_name
+          echo "ARTIFACT_VERSION=$ARTIFACT_VERSION" >> $GITHUB_OUTPUT
 
       # Download Docker
       - name: 'Set up Docker'
