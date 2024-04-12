@@ -23,6 +23,9 @@ jobs:
       MONGODB_DATABASE_NAME: ${{ vars.MONGODB_DATABASE_NAME }}
       SOCKETIO_HOST_URL: ${{ vars.SOCKETIO_HOST_URL }}
       SOCKETIO_PORT: ${{ vars.SOCKETIO_PORT }}
+      DOCKER_USERNAME: ${{ vars.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      IMAGE_NAME: rovo
 
     steps:
       # Checkout to current
@@ -41,8 +44,11 @@ jobs:
           
           mkdir -p target
           mv *.jar target
+          
+          ls -lrth target
+          echo "ARTIFACT_VERSION=$latest_tag_name" >> $GITHUB_OUTPUT
 
-      # Download Docker CLI
+      # Download Docker
       - name: 'Set up Docker'
         run: |
           sudo apt-get update
@@ -50,5 +56,19 @@ jobs:
           
           curl -fsSL https://get.docker.com/ | sh
           sudo usermod -aG docker runner
+
+      # Login Docker
+      - name: 'Login to Docker'
+        run: |
+          docker login -u ${{ env.DOCKER_USERNAME }} -p ${{ env.DOCKER_PASSWORD }}
+
+      # Build & Upload Docker Image
+      - name: Build & Push Image
+        env:
+          ARTIFACT_VERSION: ${{ steps.download_github_artifacts.outputs.ARTIFACT_VERSION }}
+        run: |
+          docker build -t ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ ARTIFACT_VERSION }} .
+          echo "docker image build successfully."
           
-          docker -h
+          docker push ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ ARTIFACT_VERSION }}
+          echo "docker image pushed successfully."
