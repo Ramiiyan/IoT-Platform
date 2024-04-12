@@ -66,8 +66,8 @@ jobs:
       # Build & Upload Docker Image
       - name: Build & Push Image
         run: |
-          ARTIFACT_TAG=${{ steps.download_github_artifacts.outputs.ARTIFACT_VERSION }}
-          echo $ARTIFACT_TAG
+          ARTIFACT_TAGD=${{ steps.download_github_artifacts.outputs.ARTIFACT_VERSION }}
+          echo $ARTIFACT_TAGD
           docker build -t ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ ARTIFACT_TAG }} .
           echo "docker image build successfully."
           
