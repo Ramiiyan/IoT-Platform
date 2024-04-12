@@ -46,8 +46,8 @@ jobs:
           mv *.jar target
           
           ls -lrth target
-          ARTIFACT_VERSION=$latest_tag_name
-          echo "ARTIFACT_VERSION=$ARTIFACT_VERSION" >> $GITHUB_OUTPUT
+          
+          echo "ARTIFACT_VERSION=$latest_tag_name" >> $GITHUB_OUTPUT
 
       # Download Docker
       - name: 'Set up Docker'
@@ -65,10 +65,9 @@ jobs:
 
       # Build & Upload Docker Image
       - name: Build & Push Image
-        env:
-          TEST: hello
-          ARTIFACT_TAG: ${{ steps.download_github_artifacts.outputs.ARTIFACT_VERSION }}
         run: |
+          ARTIFACT_TAG=${{ steps.download_github_artifacts.outputs.ARTIFACT_VERSION }}
+          echo $ARTIFACT_TAG
           docker build -t ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ ARTIFACT_TAG }} .
           echo "docker image build successfully."
           
