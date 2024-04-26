@@ -36,10 +36,48 @@ jobs:
         run: |
           docker login -u ${{ env.DOCKER_USERNAME }} -p ${{ env.DOCKER_PASSWORD }}
 
-      # Create Docker context
+      - name: Create ssh directory
+        run: mkdir --parents $HOME/.ssh
+
+      - name: Start SSH Agent
+        run: |
+          if [ -z "$SSH_AGENT_PID" ]; then
+            eval $(ssh-agent)
+            echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK" >> $GITHUB_ENV
+            echo "SSH_AGENT_PID=SSH_AGENT_PID" >> $GITHUB_ENV          
+          fi    
+
+      - name: Configure SSH client private key
+        run: |
+          echo "${{ secrets.OCI_SSH_KEY }}" | ssh-add -
+
+       # Create Docker context
       - name: 'create OCI Docker context'
         run: |
-          docker context create oracle-vm-docker --docker "host=ssh://ubuntu@168.138.71.132,key=${{ secrets.OCI_SSH_KEY }}"
+          docker context create oracle-vm-docker --docker "host=ssh://ubuntu@168.138.71.132"
           docker context ls
           docker ps
           docker images
+
+#      - name: Configure SSH client private key
+#        run: |
+#          if [ -n "${{ inputs.ssh_key }}" ]; then
+#            echo "${{ inputs.ssh_key }}" | ssh-add - ;
+#          fi
+
+
+#    - shell: bash
+#      name: Create the docker remote context
+#      run: docker context create "${{ inputs.context_name }}" --docker "host=${{ inputs.docker_host }}"
+#
+#    - shell: bash
+#      name: Set as current context
+#      run: if [ "true" == "${{ inputs.use_context}}" ]; then docker context use "${{ inputs.context_name }}"; fi
+#
+#        # Create Docker context
+#        - name: 'create OCI Docker context'
+#          run: |
+#            docker context create oracle-vm-docker --docker "host=ssh://ubuntu@168.138.71.132,key=${{ secrets.OCI_SSH_KEY }}"
+#            docker context ls
+#            docker ps
+#            docker images
