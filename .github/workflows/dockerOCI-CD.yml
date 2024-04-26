@@ -51,7 +51,7 @@ jobs:
 
       - name: Configure SSH client private key
         run: |
-          echo "${{ secrets.OCI_SSH_KEY }}" | ssh-add -
+          echo "${{ secrets.OCI_SSH_KEY }}" | ssh-add
 
        # Create Docker context
       - name: 'Create OCI Docker context'
