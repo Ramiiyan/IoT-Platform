@@ -66,14 +66,11 @@ jobs:
           docker context create ${{ env.DOCKER_CONTEXT_NAME }} --docker "host=${{ env.OCI_DOCKER_HOST }}"
           docker context use ${{ env.DOCKER_CONTEXT_NAME }}
           docker context ls
+          docker ps
+          docker images
 
-#          docker context use ${{ env.DOCKER_CONTEXT_NAME }}
-#          docker context ls
-#          docker ps
-#          docker images
-
-#      # Pull Latest Image from the Docker repository
-#      - name: 'Pull Docker image'
-#        run: |
-#          docker pull ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}
-#          docker images
+      # Pull Latest Image from the Docker repository
+      - name: 'Pull Docker image'
+        run: |
+          docker pull ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}
+          docker images
