@@ -15,6 +15,8 @@ jobs:
       REPOSITORY: IoT-Platform
       DOCKER_USERNAME: ${{ vars.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      OCI_DOCKER_HOST: ${{ vars.OCI_DOCKER_HOST }}
+      DOCKER_CONTEXT_NAME: oracle-vm-docker
       IMAGE_NAME: rovo
 
     steps:
@@ -54,8 +56,9 @@ jobs:
        # Create Docker context
       - name: 'create OCI Docker context'
         run: |
-          docker context create oracle-vm-docker --docker "host=ssh://ubuntu@168.138.71.132"
+          docker context create ${{ env.DOCKER_CONTEXT_NAME }} --docker "host=${{ env.OCI_DOCKER_HOST }}"
           docker context ls
+          docker context use ${{ env.DOCKER_CONTEXT_NAME }}
           docker ps
           docker images
 
