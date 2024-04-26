@@ -59,6 +59,7 @@ jobs:
           docker context create ${{ env.DOCKER_CONTEXT_NAME }} --docker "host=${{ env.OCI_DOCKER_HOST }}"
           docker context ls
           docker context use ${{ env.DOCKER_CONTEXT_NAME }}
+          docker context ls
           docker ps
           docker images
 
