@@ -63,4 +63,8 @@ jobs:
           echo "docker image build successfully."
           
           docker push ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.ARTIFACT_VERSION }}
-          echo "docker image pushed successfully."
+          echo "docker image pushed successfully.: ${{ env.ARTIFACT_VERSION }}"
+          
+          docker tag ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.ARTIFACT_VERSION }} ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:latest
+          docker push ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:latest
+          echo "docker image pushed as Latest successfully."
