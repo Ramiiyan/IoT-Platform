@@ -44,6 +44,15 @@ jobs:
           context_name: ${{ env.DOCKER_CONTEXT_NAME }}
           ssh_key: ${{ secrets.OCI_SSH_KEY }}
 
+      # Create Docker context
+      - name: 'Create OCI Docker context'
+        run: |
+          docker context use ${{ env.DOCKER_CONTEXT_NAME }}
+          docker context ls
+          docker ps
+          docker images
+
+
 #      - name: Create ssh directory
 #        run: mkdir --parents $HOME/.ssh
 #
@@ -60,17 +69,17 @@ jobs:
 #        run: |
 #          echo "${{ secrets.OCI_SSH_KEY }}" | ssh-add
 #
-       # Create Docker context
-      - name: 'Create OCI Docker context'
-        run: |
+#       # Create Docker context
+#      - name: 'Create OCI Docker context'
+#        run: |
 #          docker context create ${{ env.DOCKER_CONTEXT_NAME }} --docker "host=${{ env.OCI_DOCKER_HOST }}"
-          docker context use ${{ env.DOCKER_CONTEXT_NAME }}
-          docker context ls
-          docker ps
-          docker images
+#          docker context use ${{ env.DOCKER_CONTEXT_NAME }}
+#          docker context ls
+#          docker ps
+#          docker images
 
       # Pull Latest Image from the Docker repository
-      - name: 'Pull Docker image'
-        run: |
-          docker pull ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}
-          docker images
+#      - name: 'Pull Docker image'
+#        run: |
+#          docker pull ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}
+#          docker images
