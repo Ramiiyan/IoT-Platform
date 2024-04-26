@@ -8,6 +8,7 @@ on:
       - main
     paths-ignore:
       - .github/workflows/dockerReleaser.yml
+      - .github/workflows/dockerOCI-CD.yml
   workflow_dispatch:
 
 jobs:

@@ -1,0 +1,45 @@
+name: "OCI Docker Deployment"
+
+# Define when to trigger the workflow (on each push to the main branch)
+## Whatever push changes occurs to main branch, this workflow will trigger.
+on:
+#  workflow_call:
+  workflow_dispatch:
+
+jobs:
+  release_Docker:
+    # Set the environment for this job (place where these workflow will run below steps and cmds)
+    runs-on: ubuntu-latest
+    env:
+      GIT_ORG: Ramiiyan
+      REPOSITORY: IoT-Platform
+      DOCKER_USERNAME: ${{ vars.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      IMAGE_NAME: rovo
+
+    steps:
+      # Checkout to current
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Download Docker
+      - name: 'Set up Docker'
+        run: |
+          sudo apt-get update
+          sudo apt-get install curl
+          
+          curl -fsSL https://get.docker.com/ | sh
+          sudo usermod -aG docker runner
+
+      # Login Docker
+      - name: 'Login to Docker'
+        run: |
+          docker login -u ${{ env.DOCKER_USERNAME }} -p ${{ env.DOCKER_PASSWORD }}
+
+      # Create Docker context
+      - name: 'create OCI Docker context'
+        run: |
+          docker context create oracle-vm-docker --docker "host=ssh://ubuntu@168.138.71.132,key=${{ secrets.OCI_SSH_KEY }}"
+          docker context ls
+          docker ps
+          docker images
