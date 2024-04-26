@@ -41,7 +41,7 @@ jobs:
       - uses: arwynfr/actions-docker-context@v2
         with:
           docker_host: 'ssh://ubuntu@168.138.71.132'
-          context_name: 'oci-vm-docker'
+          context_name: ${{ env.DOCKER_CONTEXT_NAME }}
           ssh_key: ${{ secrets.OCI_SSH_KEY }}
 
 #      - name: Create ssh directory
@@ -63,7 +63,7 @@ jobs:
        # Create Docker context
       - name: 'Create OCI Docker context'
         run: |
-          docker context create ${{ env.DOCKER_CONTEXT_NAME }} --docker "host=${{ env.OCI_DOCKER_HOST }}"
+#          docker context create ${{ env.DOCKER_CONTEXT_NAME }} --docker "host=${{ env.OCI_DOCKER_HOST }}"
           docker context use ${{ env.DOCKER_CONTEXT_NAME }}
           docker context ls
           docker ps
