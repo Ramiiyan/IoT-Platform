@@ -38,24 +38,24 @@ jobs:
         run: |
           docker login -u ${{ env.DOCKER_USERNAME }} -p ${{ env.DOCKER_PASSWORD }}
 
-#      - uses: arwynfr/actions-docker-context@v2
-#        with:
-#          docker_host: 'ssh://ubuntu@168.138.71.132'
-#          context_name: 'oci-vm-docker'
-#          ssh_key: ${{ secrets.OCI_SSH_KEY }}
+      - uses: arwynfr/actions-docker-context@v2
+        with:
+          docker_host: 'ssh://ubuntu@168.138.71.132'
+          context_name: 'oci-vm-docker'
+          ssh_key: ${{ secrets.OCI_SSH_KEY }}
 
-      - name: Create ssh directory
-        run: mkdir --parents $HOME/.ssh
-
-      - name: Start SSH Agent
-        run: |
-          if [ -z "$SSH_AGENT_PID" ]; then
-            eval $(ssh-agent)
-            echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK" >> $GITHUB_ENV
-            echo "SSH_AGENT_PID=$SSH_AGENT_PID" >> $GITHUB_ENV
-          fi
-      - name: Configure SSH client private key
-        run: if [ -n "${{ secrets.OCI_SSH_KEY }}" ]; then echo "${{ secrets.OCI_SSH_KEY }}" | ssh-add - ; fi
+#      - name: Create ssh directory
+#        run: mkdir --parents $HOME/.ssh
+#
+#      - name: Start SSH Agent
+#        run: |
+#          if [ -z "$SSH_AGENT_PID" ]; then
+#            eval $(ssh-agent)
+#            echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK" >> $GITHUB_ENV
+#            echo "SSH_AGENT_PID=$SSH_AGENT_PID" >> $GITHUB_ENV
+#          fi
+#      - name: Configure SSH client private key
+#        run: if [ -n "${{ secrets.OCI_SSH_KEY }}" ]; then echo "${{ secrets.OCI_SSH_KEY }}" | ssh-add - ; fi
 #      - name: Configure SSH client private key
 #        run: |
 #          echo "${{ secrets.OCI_SSH_KEY }}" | ssh-add
