@@ -50,7 +50,9 @@ jobs:
           docker context use ${{ env.DOCKER_CONTEXT_NAME }}
           docker context ls
           docker ps
+          sleep 10s
           docker images
+          sleep 10s
 
 
 #      - name: Create ssh directory
