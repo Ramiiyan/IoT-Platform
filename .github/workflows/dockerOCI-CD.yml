@@ -47,6 +47,8 @@ jobs:
       # Create Docker context
       - name: 'Create OCI Docker context'
         run: |
+          echo "CHECKING IF KEY WAS ADDED" && ssh-add -l # Checking key was added correctly
+          echo "StrictHostKeyChecking no" >> $(find /etc -iname ssh_config) # Avoiding host check by changing the global configuration of ssh client
           docker context use ${{ env.DOCKER_CONTEXT_NAME }}
           docker context ls
           docker ps
