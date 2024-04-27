@@ -38,52 +38,53 @@ jobs:
         run: |
           docker login -u ${{ env.DOCKER_USERNAME }} -p ${{ env.DOCKER_PASSWORD }}
 
-      - uses: arwynfr/actions-docker-context@v2
-        with:
-          docker_host: 'ssh://ubuntu@168.138.71.132'
-          context_name: ${{ env.DOCKER_CONTEXT_NAME }}
-          ssh_key: ${{ secrets.OCI_SSH_KEY }}
-
-      # Create Docker context
-      - name: 'Create OCI Docker context'
-        run: |
-          echo "CHECKING IF KEY WAS ADDED" && ssh-add -l # Checking key was added correctly
-          echo "StrictHostKeyChecking no" | sudo tee -a /etc/ssh/ssh_config
-          docker context use ${{ env.DOCKER_CONTEXT_NAME }}
-          docker context ls
-          docker ps
-          sleep 10s
-          docker images
-          sleep 10s
-
-
-#      - name: Create ssh directory
-#        run: mkdir --parents $HOME/.ssh
+#      - uses: arwynfr/actions-docker-context@v2
+#        with:
+#          docker_host: 'ssh://ubuntu@168.138.71.132'
+#          context_name: ${{ env.DOCKER_CONTEXT_NAME }}
+#          ssh_key: ${{ secrets.OCI_SSH_KEY }}
 #
-#      - name: Start SSH Agent
-#        run: |
-#          if [ -z "$SSH_AGENT_PID" ]; then
-#            eval $(ssh-agent)
-#            echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK" >> $GITHUB_ENV
-#            echo "SSH_AGENT_PID=$SSH_AGENT_PID" >> $GITHUB_ENV
-#          fi
-#      - name: Configure SSH client private key
-#        run: if [ -n "${{ secrets.OCI_SSH_KEY }}" ]; then echo "${{ secrets.OCI_SSH_KEY }}" | ssh-add - ; fi
-#      - name: Configure SSH client private key
-#        run: |
-#          echo "${{ secrets.OCI_SSH_KEY }}" | ssh-add
-#
-#       # Create Docker context
+#      # Create Docker context
 #      - name: 'Create OCI Docker context'
 #        run: |
-#          docker context create ${{ env.DOCKER_CONTEXT_NAME }} --docker "host=${{ env.OCI_DOCKER_HOST }}"
+#          echo "CHECKING IF KEY WAS ADDED" && ssh-add -l # Checking key was added correctly
+#          echo "StrictHostKeyChecking no" | sudo tee -a /etc/ssh/ssh_config
 #          docker context use ${{ env.DOCKER_CONTEXT_NAME }}
 #          docker context ls
 #          docker ps
+#          sleep 10s
 #          docker images
+#          sleep 10s
+
+      - name: Create ssh directory
+        run: mkdir --parents $HOME/.ssh
+
+      - name: Start SSH Agent
+        run: |
+          if [ -z "$SSH_AGENT_PID" ]; then
+            eval $(ssh-agent)
+            echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK" >> $GITHUB_ENV
+            echo "SSH_AGENT_PID=$SSH_AGENT_PID" >> $GITHUB_ENV
+          fi
+
+      - name: Configure SSH client private key
+        run: |
+          if [ -n "${{ secrets.OCI_SSH_KEY }}" ]; then echo "${{ secrets.OCI_SSH_KEY }}" | ssh-add - ; fi
+          echo "CHECKING IF KEY WAS ADDED" && ssh-add -l # Checking key was added correctly
+          echo "StrictHostKeyChecking no" | sudo tee -a /etc/ssh/ssh_config #Setting StrictHostKeyChecking to false
+
+       # Create Docker context
+      - name: 'Create OCI Docker context'
+        run: |
+          docker context create ${{ env.DOCKER_CONTEXT_NAME }} --docker "host=${{ env.OCI_DOCKER_HOST }}"
+          docker context use ${{ env.DOCKER_CONTEXT_NAME }}
+          docker context ls
+          docker ps
+          sleep 5s
+          docker images
 
       # Pull Latest Image from the Docker repository
-#      - name: 'Pull Docker image'
-#        run: |
-#          docker pull ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}
-#          docker images
+      - name: 'Pull Docker image'
+        run: |
+          docker pull ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}
+          docker images
