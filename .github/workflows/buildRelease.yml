@@ -133,3 +133,7 @@ jobs:
   docker_image_build_push:
     needs: [ maven_build_Release ]
     uses: ./.github/workflows/dockerReleaser.yml
+
+  oci_docker_cd:
+    needs: [maven_build_Release, docker_image_build_push]
+    uses: ./.github/workflows/dockerOCI-CD.yml
