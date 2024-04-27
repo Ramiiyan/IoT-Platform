@@ -18,6 +18,7 @@ jobs:
       OCI_DOCKER_HOST: ${{ vars.OCI_DOCKER_HOST }}
       DOCKER_CONTEXT_NAME: oracle-vm-docker
       IMAGE_NAME: rovo
+      DOCKER_IMAGE_FULL_NAME: ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}
 
     steps:
       # Checkout to current
@@ -86,5 +87,23 @@ jobs:
       # Pull Latest Image from the Docker repository
       - name: 'Pull Docker image'
         run: |
-          docker pull ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}
+          docker pull ${{ env.DOCKER_IMAGE_FULL_NAME }}
           docker images
+
+      # Stop & Remove Docker container
+      - name: 'stop & remove existing container'
+        run: |
+          # Stop and remove the container if it's running
+          docker ps | grep "${{ env.DOCKER_IMAGE_FULL_NAME }}" | awk '{print $1}' | xargs -r docker stop
+          docker ps -a | grep "${{ env.DOCKER_IMAGE_FULL_NAME }}" | awk '{print $1}' | xargs -r docker rm
+
+      # Run the latest Docker image
+      - name: 'stop & remove existing container'
+        run: |
+          docker run -d -p 80:8080 -p 9092:9092 ${{ env.DOCKER_IMAGE_FULL_NAME }}
+      
+
+#      # Remove the image if it exists
+#      - name: "Remove the image if it exists"
+#        run: |
+#          docker images | grep "ramiiyans/rovo" | awk '{print $3}' | xargs -r docker rmi
