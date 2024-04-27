@@ -3,7 +3,7 @@ name: "OCI Docker Deployment"
 # Define when to trigger the workflow (on each push to the main branch)
 ## Whatever push changes occurs to main branch, this workflow will trigger.
 on:
-#  workflow_call:
+  workflow_call:
   workflow_dispatch:
 
 jobs:
@@ -41,7 +41,7 @@ jobs:
 
 #      - uses: arwynfr/actions-docker-context@v2
 #        with:
-#          docker_host: 'ssh://ubuntu@168.138.71.132'
+#          docker_host: 'ssh://<username>@ip-address'
 #          context_name: ${{ env.DOCKER_CONTEXT_NAME }}
 #          ssh_key: ${{ secrets.OCI_SSH_KEY }}
 #
@@ -101,7 +101,7 @@ jobs:
       - name: 'stop & remove existing container'
         run: |
           docker run -d -p 80:8080 -p 9092:9092 ${{ env.DOCKER_IMAGE_FULL_NAME }}
-      
+          docker ps
 
 #      # Remove the image if it exists
 #      - name: "Remove the image if it exists"
