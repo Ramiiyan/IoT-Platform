@@ -4,6 +4,23 @@ name: "Docker Image Build & Releaser"
 ## Whatever push changes occurs to main branch, this workflow will trigger.
 on:
   workflow_call:
+    inputs:
+      git_org:
+        required: true
+        type: string
+      repository:
+        required: true
+        type: string
+      docker_username:
+        required: true
+        type: string
+      image_name:
+        required: false
+        type: string
+        default: rovo
+    secrets:
+      docker_password:
+        required: true
   workflow_dispatch:
 
 jobs:
@@ -11,11 +28,11 @@ jobs:
     # Set the environment for this job (place where these workflow will run below steps and cmds)
     runs-on: ubuntu-latest
     env:
-      GIT_ORG: Ramiiyan
-      REPOSITORY: IoT-Platform
-      DOCKER_USERNAME: ${{ vars.DOCKER_USERNAME }}
-      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      IMAGE_NAME: rovo
+      GIT_ORG: ${{ inputs.git_org }}
+      REPOSITORY: ${{ inputs.git_org }}
+      DOCKER_USERNAME: ${{ inputs.docker_username }}
+      DOCKER_PASSWORD: ${{ secrets.docker_password }}
+      IMAGE_NAME: ${{ inputs.image_name }}
 
     steps:
       # Checkout to current
