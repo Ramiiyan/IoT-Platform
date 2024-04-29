@@ -133,7 +133,18 @@ jobs:
   docker_image_build_push:
     needs: [ maven_build_Release ]
     uses: ./.github/workflows/dockerReleaser.yml
+    with:
+      git_org: Ramiiyan
+      repository: IoT-Platform
+      docker_username: ${{ vars.DOCKER_USERNAME }}
+    secrets: inherit # ${{ secrets.DOCKER_PASSWORD }}
 
   oci_docker_cd:
     needs: [maven_build_Release, docker_image_build_push]
     uses: ./.github/workflows/dockerOCI-CD.yml
+    with:
+      git_org: Ramiiyan
+      repository: IoT-Platform
+      docker_username: ${{ vars.DOCKER_USERNAME }}
+      oci_docker_host: ${{ vars.OCI_DOCKER_HOST }}
+    secrets: inherit # ${{ secrets.DOCKER_PASSWORD }}
