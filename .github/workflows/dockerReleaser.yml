@@ -29,7 +29,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GIT_ORG: ${{ inputs.git_org }}
-      REPOSITORY: ${{ inputs.git_org }}
+      REPOSITORY: ${{ inputs.repository }}
       DOCKER_USERNAME: ${{ inputs.docker_username }}
       DOCKER_PASSWORD: ${{ secrets.docker_password }}
       IMAGE_NAME: ${{ inputs.image_name }}
