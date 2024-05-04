@@ -109,12 +109,6 @@ jobs:
           sleep 5s
           docker images
 
-      # Pull Latest Image from the Docker repository
-      - name: 'Pull Docker image'
-        run: |
-          docker pull ${{ env.DOCKER_IMAGE_FULL_NAME }}
-          docker images
-
       # Stop & Remove Docker container
       - name: 'stop & remove existing container'
         run: |
@@ -122,13 +116,23 @@ jobs:
           docker ps | grep "${{ env.DOCKER_IMAGE_FULL_NAME }}" | awk '{print $1}' | xargs -r docker stop
           docker ps -a | grep "${{ env.DOCKER_IMAGE_FULL_NAME }}" | awk '{print $1}' | xargs -r docker rm
 
+      # Remove the image if it exists
+      - name: "Remove the image if it exists"
+        run: |
+          docker images | grep "${{ env.DOCKER_IMAGE_FULL_NAME }}" | awk '{print $3}' | xargs -r docker rmi
+
+      # Pull Latest Image from the Docker repository
+      - name: 'Pull Docker image'
+        run: |
+          docker pull ${{ env.DOCKER_IMAGE_FULL_NAME }}
+          docker images
+
       # Run the latest Docker image
-      - name: 'stop & remove existing container'
+      - name: 'Run the Container'
         run: |
           docker run -d -p 80:8080 -p 9092:9092 ${{ env.DOCKER_IMAGE_FULL_NAME }}
           docker ps
-
-#      # Remove the image if it exists
-#      - name: "Remove the image if it exists"
-#        run: |
-#          docker images | grep "ramiiyans/rovo" | awk '{print $3}' | xargs -r docker rmi
+      # Run CURL command to check the application health
+      - name: 'Application health check'
+        run: |
+          curl -k http://rovo.zapto.org/hello2
