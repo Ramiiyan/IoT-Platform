@@ -14,6 +14,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class SocketModule {
 
+//    @Autowired
+//    private SensorServiceImpl sensorService;
+
     //    private final SocketIOServer server;
     private final SocketService socketService;
 
@@ -30,6 +33,11 @@ public class SocketModule {
         return (senderClient, data, ackSender) -> {
             //log.info(data.toString());
             log.info("This is DataListener Data: {}",data.getMessage());
+
+            //TODO
+            // update database
+
+            // send socket event
             socketService.sendMessage(data.getRoom(),"user112", senderClient, data.getMessage());
         };
     }

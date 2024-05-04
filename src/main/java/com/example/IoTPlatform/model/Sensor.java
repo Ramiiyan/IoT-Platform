@@ -15,6 +15,7 @@ public class Sensor {
     private double sensorValue;
     private SensorData sensor_data;
     private Date creationDate;
+    private int sensorPin;
 
     private Long timeStamp;
 
@@ -29,29 +30,41 @@ public class Sensor {
         this.creationDate = new Date();
     }
 
-    public Sensor(String sensorId, String sensorName, String type, Long timeStamp){
+    public Sensor(String sensorId, String sensorName, String type, int sensorPin){
         super();
         this.sensorId = sensorId;
         this.sensorName = sensorName;
         this.type = type;
+        this.sensorPin = sensorPin;
+        this.creationDate = new Date();
+    }
+
+    public Sensor(String sensorId, String sensorName, String type, int sensorPin, Long timeStamp){
+        super();
+        this.sensorId = sensorId;
+        this.sensorName = sensorName;
+        this.type = type;
+        this.sensorPin = sensorPin;
         this.timeStamp = timeStamp;
         this.creationDate = new Date();
     }
 
-    public Sensor(String sensorId, String sensorName, String type, double sensorValue){
+    public Sensor(String sensorId, String sensorName, String type, int sensorPin, double sensorValue){
         super();
         this.sensorId = sensorId;
         this.sensorName = sensorName;
         this.type = type;
         this.sensorValue = sensorValue;
+        this.sensorPin = sensorPin;
         this.creationDate = new Date();
     }
 
-    public Sensor(String sensorId, String sensorName, String type, double sensorValue, Date creationDate) {
+    public Sensor(String sensorId, String sensorName, String type, int sensorPin, double sensorValue, Date creationDate) {
         this.sensorId = sensorId;
         this.sensorName = sensorName;
         this.type = type;
         this.sensorValue = sensorValue;
+        this.sensorPin = sensorPin;
         this.creationDate = creationDate;
     }
 
@@ -61,8 +74,9 @@ public class Sensor {
                 "sensorId=" + sensorId +
                 ", sensorName='" + sensorName + '\'' +
                 ", type='" + type + '\'' +
-                ", sensorValue=" + sensorValue +
-                ", creationDate=" + creationDate +
+                ", sensorPin='" + sensorPin + '\'' +
+                ", sensorValue=" + sensorValue + '\'' +
+                ", creationDate=" + creationDate + '\'' +
                 '}';
     }
 
@@ -122,4 +136,11 @@ public class Sensor {
         this.creationDate = creationDate;
     }
 
+    public int getSensorPin() {
+        return sensorPin;
+    }
+
+    public void setSensorPin(int sensorPin) {
+        this.sensorPin = sensorPin;
+    }
 }
