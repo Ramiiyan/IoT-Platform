@@ -21,7 +21,7 @@ on:
     secrets:
       docker_password:
         required: true
-  workflow_dispatch:
+#  workflow_dispatch:
 
 jobs:
   release_Docker:
