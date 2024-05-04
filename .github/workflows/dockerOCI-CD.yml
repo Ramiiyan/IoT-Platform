@@ -64,24 +64,6 @@ jobs:
         run: |
           docker login -u ${{ env.DOCKER_USERNAME }} -p ${{ env.DOCKER_PASSWORD }}
 
-#      - uses: arwynfr/actions-docker-context@v2
-#        with:
-#          docker_host: 'ssh://<username>@ip-address'
-#          context_name: ${{ env.DOCKER_CONTEXT_NAME }}
-#          ssh_key: ${{ secrets.OCI_SSH_KEY }}
-#
-#      # Create Docker context
-#      - name: 'Create OCI Docker context'
-#        run: |
-#          echo "CHECKING IF KEY WAS ADDED" && ssh-add -l # Checking key was added correctly
-#          echo "StrictHostKeyChecking no" | sudo tee -a /etc/ssh/ssh_config
-#          docker context use ${{ env.DOCKER_CONTEXT_NAME }}
-#          docker context ls
-#          docker ps
-#          sleep 10s
-#          docker images
-#          sleep 10s
-
       - name: Create ssh directory
         run: mkdir --parents $HOME/.ssh
 
@@ -132,6 +114,7 @@ jobs:
         run: |
           docker run -d -p 80:8080 -p 9092:9092 ${{ env.DOCKER_IMAGE_FULL_NAME }}
           docker ps
+          sleep 2m # Waits 2 minutes. until the server up and run
       # Run CURL command to check the application health
       - name: 'Application health check'
         run: |
