@@ -118,4 +118,4 @@ jobs:
       # Run CURL command to check the application health
       - name: 'Application health check'
         run: |
-          curl -k http://rovo.zapto.org/hello2
+          curl -k http://rovo.zapto.org/healthcheck

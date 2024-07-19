@@ -23,21 +23,13 @@ public class DeviceController {
     static SocketIOServer server;
 //    static private Socket socket;
 
-    @GetMapping("/hello2")
-    public String hello2(@RequestParam(value = "name", defaultValue = "World") String name){
-//        try {
-//            log.info("Server processing...");
-//            server();
-//
-//        } catch (InterruptedException | UnsupportedEncodingException e) {
-//            e.printStackTrace();
-//        }
+    @GetMapping("/healthcheck")
+    public String healthcheck(@RequestParam(value = "name", defaultValue = "World") String name){
 
-
-        return String.format("Hello:2 %s!", name);
+        return String.format("Hello %s!", name);
     }
     @GetMapping("/testClient")
-    public String hello3(@RequestParam(value = "name", defaultValue = "World") String name){
+    public String testClient(@RequestParam(value = "name", defaultValue = "World") String name){
 
         //client();
 
