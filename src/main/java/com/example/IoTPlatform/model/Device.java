@@ -15,9 +15,9 @@ public class Device {
     private String deviceId;
     private String deviceName;
     private String deviceType;
-    private String MqttPubPath;
-    private String MqttSubPath;
-    private Map<String,String> deviceSettings = new HashMap<>();
+    private String mqttPubPath;
+    private String mqttSubPath;
+    private Map<String,String> deviceConfig = new HashMap<>();
     private Date creationDate;
 
     private ArrayList<Sensor> sensor;
@@ -28,40 +28,40 @@ public class Device {
         this.deviceId = deviceId;
         this.deviceName = deviceName;
         this.deviceType = deviceType;
-        this.MqttPubPath = mqttPubPath;
-        this.MqttSubPath = mqttSubPath;
+        this.mqttPubPath = mqttPubPath;
+        this.mqttSubPath = mqttSubPath;
         this.creationDate = new Date();
 
     }
 
-    public Device(String deviceId, String deviceName, String deviceType, String mqttPubPath, String mqttSubPath, Map<String, String> deviceSettings) {
+    public Device(String deviceId, String deviceName, String deviceType, String mqttPubPath, String mqttSubPath, Map<String, String> deviceConfig) {
         this.deviceId = deviceId;
         this.deviceName = deviceName;
         this.deviceType = deviceType;
-        this.MqttPubPath = mqttPubPath;
-        this.MqttSubPath = mqttSubPath;
-        this.deviceSettings = deviceSettings;
+        this.mqttPubPath = mqttPubPath;
+        this.mqttSubPath = mqttSubPath;
+        this.deviceConfig = deviceConfig;
         this.creationDate = new Date();
     }
 
-    public Device(String deviceId, String deviceName, String deviceType, String mqttPubPath, String mqttSubPath, Map<String, String> deviceSettings, ArrayList<Sensor> sensor) {
+    public Device(String deviceId, String deviceName, String deviceType, String mqttPubPath, String mqttSubPath, Map<String, String> deviceConfig, ArrayList<Sensor> sensor) {
         this.deviceId = deviceId;
         this.deviceName = deviceName;
         this.deviceType = deviceType;
-        this.MqttPubPath = mqttPubPath;
-        this.MqttSubPath = mqttSubPath;
-        this.deviceSettings = deviceSettings;
+        this.mqttPubPath = mqttPubPath;
+        this.mqttSubPath = mqttSubPath;
+        this.deviceConfig = deviceConfig;
         this.sensor = sensor;
         this.creationDate = new Date();
     }
 
-    public Device(String deviceId, String deviceName, String deviceType, String mqttPubPath, String mqttSubPath, Map<String, String> deviceSettings, Date creationDate, ArrayList<Sensor> sensor) {
+    public Device(String deviceId, String deviceName, String deviceType, String mqttPubPath, String mqttSubPath, Map<String, String> deviceConfig, Date creationDate, ArrayList<Sensor> sensor) {
         this.deviceId = deviceId;
         this.deviceName = deviceName;
         this.deviceType = deviceType;
-        this.MqttPubPath = mqttPubPath;
-        this.MqttSubPath = mqttSubPath;
-        this.deviceSettings = deviceSettings;
+        this.mqttPubPath = mqttPubPath;
+        this.mqttSubPath = mqttSubPath;
+        this.deviceConfig = deviceConfig;
         this.creationDate = creationDate;
         this.sensor = sensor;
     }
@@ -72,8 +72,8 @@ public class Device {
                 "deviceId='" + deviceId + '\'' +
                 ", deviceName='" + deviceName + '\'' +
                 ", deviceType='" + deviceType + '\'' +
-                ", MqttPubPath='" + MqttPubPath + '\'' +
-                ", MqttSubPath='" + MqttSubPath + '\'' +
+                ", mqttPubPath='" + mqttPubPath + '\'' +
+                ", mqttSubPath='" + mqttSubPath + '\'' +
                 ", creationDate=" + creationDate +
                 ", sensor=" + sensor +
                 '}';
@@ -112,19 +112,19 @@ public class Device {
     }
 
     public String getMqttPubPath() {
-        return MqttPubPath;
+        return mqttPubPath;
     }
 
     public void setMqttPubPath(String mqttPubPath) {
-        this.MqttPubPath = mqttPubPath;
+        this.mqttPubPath = mqttPubPath;
     }
 
     public String getMqttSubPath() {
-        return MqttSubPath;
+        return mqttSubPath;
     }
 
     public void setMqttSubPath(String mqttSubPath) {
-        this.MqttSubPath = mqttSubPath;
+        this.mqttSubPath = mqttSubPath;
     }
 
     public Date getCreationDate() {
@@ -135,11 +135,11 @@ public class Device {
         this.creationDate = creationDate;
     }
 
-    public Map<String, String> getDeviceSettings() {
-        return deviceSettings;
+    public Map<String, String> getDeviceConfig() {
+        return deviceConfig;
     }
 
-    public void setDeviceSettings(Map<String, String> deviceSettings) {
-        this.deviceSettings = deviceSettings;
+    public void setDeviceConfig(Map<String, String> deviceConfig) {
+        this.deviceConfig = deviceConfig;
     }
 }
