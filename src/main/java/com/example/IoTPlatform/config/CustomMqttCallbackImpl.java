@@ -6,6 +6,7 @@ import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.json.JSONObject;
+import org.springframework.data.mongodb.core.aggregation.ConvertOperators;
 import org.springframework.stereotype.Component;
 
 @Log4j2
@@ -39,6 +40,10 @@ public class CustomMqttCallbackImpl implements MqttCallback {
         /* WebSocket Implementation */
         socketClient.publishSocketData(testJsonObj);
         log.info("Data published to WebSocket");
+
+        /* SensorData DB update */
+        //TODO
+        // update sensorData database
     }
 
     @Override
