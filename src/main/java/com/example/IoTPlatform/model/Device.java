@@ -19,8 +19,7 @@ public class Device {
     private String mqttSubPath;
     private Map<String,String> deviceConfig = new HashMap<>();
     private Date creationDate;
-
-    private ArrayList<Sensor> sensor;
+    private ArrayList<String> sensors;  // List of Sensor IDs
 
     public Device(){}
 
@@ -44,18 +43,18 @@ public class Device {
         this.creationDate = new Date();
     }
 
-    public Device(String deviceId, String deviceName, String deviceType, String mqttPubPath, String mqttSubPath, Map<String, String> deviceConfig, ArrayList<Sensor> sensor) {
+    public Device(String deviceId, String deviceName, String deviceType, String mqttPubPath, String mqttSubPath, Map<String, String> deviceConfig, ArrayList<String> sensors) {
         this.deviceId = deviceId;
         this.deviceName = deviceName;
         this.deviceType = deviceType;
         this.mqttPubPath = mqttPubPath;
         this.mqttSubPath = mqttSubPath;
         this.deviceConfig = deviceConfig;
-        this.sensor = sensor;
+        this.sensors = sensors;
         this.creationDate = new Date();
     }
 
-    public Device(String deviceId, String deviceName, String deviceType, String mqttPubPath, String mqttSubPath, Map<String, String> deviceConfig, Date creationDate, ArrayList<Sensor> sensor) {
+    public Device(String deviceId, String deviceName, String deviceType, String mqttPubPath, String mqttSubPath, Map<String, String> deviceConfig, Date creationDate, ArrayList<String> sensors) {
         this.deviceId = deviceId;
         this.deviceName = deviceName;
         this.deviceType = deviceType;
@@ -63,7 +62,7 @@ public class Device {
         this.mqttSubPath = mqttSubPath;
         this.deviceConfig = deviceConfig;
         this.creationDate = creationDate;
-        this.sensor = sensor;
+        this.sensors = sensors;
     }
 
     @Override
@@ -75,16 +74,25 @@ public class Device {
                 ", mqttPubPath='" + mqttPubPath + '\'' +
                 ", mqttSubPath='" + mqttSubPath + '\'' +
                 ", creationDate=" + creationDate +
-                ", sensor=" + sensor +
+                ", sensor=" + sensors.toString() +
                 '}';
     }
 
-    public ArrayList<Sensor> getSensor() {
-        return sensor;
+    // Adding new SensorId to the sensor arraylist
+    public void addSensor(String sensorId) {
+        sensors.add(sensorId);
     }
 
-    public void setSensor(ArrayList<Sensor> sensor) {
-        this.sensor = sensor;
+    // Removing new SensorId from the sensor arraylist
+    public void removeSensor(String sensorId) {
+        sensors.remove(sensorId);
+    }
+    public ArrayList<String> getSensors() {
+        return sensors;
+    }
+
+    public void setSensors(ArrayList<String> sensors) {
+        this.sensors = sensors;
     }
 
     public String getDeviceId() {
