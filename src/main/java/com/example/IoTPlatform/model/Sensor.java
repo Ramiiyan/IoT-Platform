@@ -13,7 +13,7 @@ public class Sensor {
     private String sensorName;
     private String type;  // I/O type
     private double sensorValue;
-    private SensorData sensor_data;
+//    private SensorData sensor_data;
     private Date creationDate;
     private int sensorPin;
 
@@ -96,13 +96,13 @@ public class Sensor {
         this.timeStamp = timeStamp;
     }
 
-    public SensorData getSensor_data() {
-        return sensor_data;
-    }
-
-    public void setSensor_data(SensorData sensor_data) {
-        this.sensor_data = sensor_data;
-    }
+//    public SensorData getSensor_data() {
+//        return sensor_data;
+//    }
+//
+//    public void setSensor_data(SensorData sensor_data) {
+//        this.sensor_data = sensor_data;
+//    }
 
     public String getSensorId() {
         return sensorId;
