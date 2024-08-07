@@ -1,6 +1,6 @@
 package com.example.IoTPlatform.service.impl;
 
-import com.example.IoTPlatform.model.SensorData;
+//import com.example.IoTPlatform.model.SensorData;
 import com.example.IoTPlatform.model.Sensor;
 import com.example.IoTPlatform.repository.SensorRepository;
 import com.example.IoTPlatform.service.SensorService;
@@ -51,19 +51,19 @@ public class SensorServiceImpl implements SensorService {
         sensorVar.setType(sensor.getType());
         sensorVar.setsensorName(sensor.getsensorName());
         sensorVar.setSensorPin(sensor.getSensorPin());
-        sensorVar.setSensor_data(new SensorData(0.00));
+//        sensorVar.setSensor_data(new SensorData(0.00));
         sensorRepository.save(sensorVar);
 
         return sensorVar;
     }
 
-    @Override
-    public Sensor updateSensorData(String id, SensorData newSensorData) {
-        Sensor sensorData = sensorRepository.findById(id).orElseThrow();
-        sensorData.setSensor_data(newSensorData);
-        sensorRepository.save(sensorData);
-
-        return sensorData;
-    }
+//    @Override
+//    public Sensor updateSensorData(String id, SensorData newSensorData) {
+//        Sensor sensorData = sensorRepository.findById(id).orElseThrow();
+//        sensorData.setSensor_data(newSensorData);
+//        sensorRepository.save(sensorData);
+//
+//        return sensorData;
+//    }
 
 }
