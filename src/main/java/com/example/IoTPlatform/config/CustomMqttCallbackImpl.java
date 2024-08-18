@@ -1,17 +1,29 @@
 package com.example.IoTPlatform.config;
 
 import com.example.IoTPlatform.Socket.SocketClient;
+import com.example.IoTPlatform.model.Sensor;
+import com.example.IoTPlatform.model.SensorData;
+import com.example.IoTPlatform.service.impl.SensorDataServiceImpl;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.log4j.Log4j2;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.aggregation.ConvertOperators;
 import org.springframework.stereotype.Component;
+
+import java.util.Date;
+import java.util.List;
 
 @Log4j2
 @Component
 public class CustomMqttCallbackImpl implements MqttCallback {
+
+    @Autowired
+    private SensorDataServiceImpl sensorDataService;
 
     private SocketClient socketClient  = new SocketClient(); //WebSocket Client Initialization & Declaration.
     @Override
@@ -44,6 +56,12 @@ public class CustomMqttCallbackImpl implements MqttCallback {
         /* SensorData DB update */
         //TODO
         // update sensorData database
+        ObjectMapper objectMapper = new ObjectMapper();
+        Date currentDateTime = new Date("YYYY-mm-ddTHH:MM:ss");
+        List<Sensor> sensors = objectMapper.readValue(message, new TypeReference<List<Sensor>>(){});
+        for (Sensor sensor: sensors) {
+            sensorDataService.saveSensorData(new SensorData(sensor.getSensorId(), currentDateTime, sensor.getsensorValue()));
+        }
     }
 
     @Override
