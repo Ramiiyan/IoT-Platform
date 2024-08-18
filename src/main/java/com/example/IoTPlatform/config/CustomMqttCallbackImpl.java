@@ -54,14 +54,14 @@ public class CustomMqttCallbackImpl implements MqttCallback {
         log.info("Data published to WebSocket");
 
         /* SensorData DB update */
-        ObjectMapper objectMapper = new ObjectMapper();
-        Date currentDateTime = new Date("YYYY-mm-ddTHH:MM:ss");
-        List<Sensor> sensors = objectMapper.readValue(message, new TypeReference<List<Sensor>>(){});
-        log.info("Sensor[0] Data:" + sensors.get(0).toString());
-        for (Sensor sensor: sensors) {
-            sensorDataService.saveSensorData(new SensorData(sensor.getSensorId(), currentDateTime, sensor.getsensorValue()));
-        }
-        log.info("Data published to MongoDB");
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        Date currentDateTime = new Date("YYYY-mm-ddTHH:MM:ss");
+//        List<Sensor> sensors = objectMapper.readValue(message, new TypeReference<List<Sensor>>(){});
+//        log.info("Sensor[0] Data:" + sensors.get(0).toString());
+//        for (Sensor sensor: sensors) {
+//            sensorDataService.saveSensorData(new SensorData(sensor.getSensorId(), currentDateTime, sensor.getsensorValue()));
+//        }
+//        log.info("Data published to MongoDB");
     }
 
     @Override
