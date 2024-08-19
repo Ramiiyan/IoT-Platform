@@ -58,7 +58,7 @@ public class CustomMqttCallbackImpl implements MqttCallback {
         log.info("Data published to WebSocket");
 
         /* SensorData DB update */
-        socketClient.publishSocketDataToMongoDB(message);
+//        socketClient.publishSocketDataToMongoDB(message);
 //        try {
 //            log.info("SensorData publisher to MongoDB");
 //
