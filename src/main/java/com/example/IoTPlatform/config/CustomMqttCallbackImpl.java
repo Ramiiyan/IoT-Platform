@@ -4,6 +4,7 @@ import com.example.IoTPlatform.Socket.SocketClient;
 import com.example.IoTPlatform.model.Sensor;
 import com.example.IoTPlatform.model.SensorData;
 import com.example.IoTPlatform.service.impl.SensorDataServiceImpl;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.log4j.Log4j2;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.aggregation.ConvertOperators;
 import org.springframework.stereotype.Component;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -24,6 +26,8 @@ public class CustomMqttCallbackImpl implements MqttCallback {
 
     @Autowired
     private SensorDataServiceImpl sensorDataService;
+
+    ObjectMapper objectMapper = new ObjectMapper();
 
     private SocketClient socketClient  = new SocketClient(); //WebSocket Client Initialization & Declaration.
     @Override
@@ -54,14 +58,19 @@ public class CustomMqttCallbackImpl implements MqttCallback {
         log.info("Data published to WebSocket");
 
         /* SensorData DB update */
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        Date currentDateTime = new Date("YYYY-mm-ddTHH:MM:ss");
-//        List<Sensor> sensors = objectMapper.readValue(message, new TypeReference<List<Sensor>>(){});
-//        log.info("Sensor[0] Data:" + sensors.get(0).toString());
-//        for (Sensor sensor: sensors) {
-//            sensorDataService.saveSensorData(new SensorData(sensor.getSensorId(), currentDateTime, sensor.getsensorValue()));
-//        }
-//        log.info("Data published to MongoDB");
+        try {
+            log.info("SensorData publisher to MongoDB");
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+            Date currentDateTime = formatter.parse("<YYYY-mm-ddTHH:MM:ss>");
+            List<Sensor> sensors = objectMapper.readValue(message, new TypeReference<List<Sensor>>() {});
+            log.info("Sensor[0] Data:" + sensors.get(0).toString());
+//            for (Sensor sensor : sensors) {
+//                sensorDataService.saveSensorData(new SensorData(sensor.getSensorId(), currentDateTime, sensor.getsensorValue()));
+//            }
+            log.info("Data published to MongoDB");
+        } catch (JsonProcessingException e){
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
