@@ -57,12 +57,6 @@ public class CustomMqttCallbackImpl implements MqttCallback {
         socketClient.publishSocketData(testJsonObj);
         log.info("Data published to WebSocket");
 
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        Date currentDateTime;
-        List<Sensor> sensors = null;
-
-        currentDateTime = formatter.parse("<YYYY-mm-ddTHH:MM:ss>");
-        log.info("current Time");
         /* SensorData DB update */
 //        try {
 //            log.info("SensorData publisher to MongoDB");
