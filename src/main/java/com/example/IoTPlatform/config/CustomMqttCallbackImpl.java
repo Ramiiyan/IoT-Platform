@@ -61,6 +61,12 @@ public class CustomMqttCallbackImpl implements MqttCallback {
         Date currentDateTime;
         List<Sensor> sensors = null;
 
+        try {
+            currentDateTime = formatter.parse("<YYYY-mm-ddTHH:MM:ss>");
+        }catch (Exception e){
+            throw new Exception(e);
+        }
+
         /* SensorData DB update */
 //        try {
 //            log.info("SensorData publisher to MongoDB");
