@@ -57,20 +57,24 @@ public class CustomMqttCallbackImpl implements MqttCallback {
         socketClient.publishSocketData(testJsonObj);
         log.info("Data published to WebSocket");
 
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        Date currentDateTime;
+        List<Sensor> sensors = null;
+
         /* SensorData DB update */
-        try {
-            log.info("SensorData publisher to MongoDB");
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-            Date currentDateTime = formatter.parse("<YYYY-mm-ddTHH:MM:ss>");
-            List<Sensor> sensors = objectMapper.readValue(message, new TypeReference<List<Sensor>>() {});
-            log.info("Sensor[0] Data:" + sensors.get(0).toString());
-//            for (Sensor sensor : sensors) {
-//                sensorDataService.saveSensorData(new SensorData(sensor.getSensorId(), currentDateTime, sensor.getsensorValue()));
-//            }
-            log.info("Data published to MongoDB");
-        } catch (JsonProcessingException e){
-            throw new RuntimeException(e);
-        }
+//        try {
+//            log.info("SensorData publisher to MongoDB");
+//
+//            Date currentDateTime = formatter.parse("<YYYY-mm-ddTHH:MM:ss>");
+//            List<Sensor> sensors = objectMapper.readValue(message, new TypeReference<List<Sensor>>() {});
+//            log.info("Sensor[0] Data:" + sensors.get(0).toString());
+////            for (Sensor sensor : sensors) {
+////                sensorDataService.saveSensorData(new SensorData(sensor.getSensorId(), currentDateTime, sensor.getsensorValue()));
+////            }
+//            log.info("Data published to MongoDB");
+//        } catch (JsonProcessingException e){
+//            throw new RuntimeException(e);
+//        }
     }
 
     @Override
