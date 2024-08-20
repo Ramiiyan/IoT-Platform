@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Log4j2
 @Component
@@ -27,11 +28,12 @@ public class CustomMqttCallbackImpl implements MqttCallback {
     @Autowired
     private SensorDataServiceImpl sensorDataService;
 
-    ObjectMapper objectMapper = new ObjectMapper();
-
 //    private SocketClient socketClient  = new SocketClient(); //WebSocket Client Initialization & Declaration.
     @Autowired
-    private SocketClient socketClient; //WebSocket Client Declaration.
+    private SocketClient socketClient; //WebSocket Client Declaration and Autowired.
+
+    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
     @Override
     public void connectionLost(Throwable throwable) {
@@ -61,20 +63,30 @@ public class CustomMqttCallbackImpl implements MqttCallback {
         log.info("Data published to WebSocket");
 
         /* SensorData DB update */
-//        socketClient.publishSocketDataToMongoDB(message);
-//        try {
-//            log.info("SensorData publisher to MongoDB");
-//
-//            Date currentDateTime = formatter.parse("<YYYY-mm-ddTHH:MM:ss>");
-//            List<Sensor> sensors = objectMapper.readValue(message, new TypeReference<List<Sensor>>() {});
-//            log.info("Sensor[0] Data:" + sensors.get(0).toString());
-//            for (Sensor sensor : sensors) {
-//                sensorDataService.saveSensorData(new SensorData(sensor.getSensorId(), currentDateTime, sensor.getsensorValue()));
-//            }
-//            log.info("Data published to MongoDB");
-//        } catch (JsonProcessingException e){
-//            throw new RuntimeException(e);
-//        }
+        // Asynchronous DB update to avoid blocking MQTT client thread
+        CompletableFuture.runAsync(() -> {
+            try {
+                log.info("SensorData publishing to MongoDB");
+
+                // Parse the incoming JSON message to a list of Sensor objects
+                List<Sensor> sensors = objectMapper.readValue(message, new TypeReference<List<Sensor>>() {});
+
+                // Get the current date and time
+                Date currentDateTime = formatter.parse("<YYYY-mm-ddTHH:MM:ss>");
+                log.info("Current D&T: "+ currentDateTime.toString());
+
+                // Save each sensor data to MongoDB
+                for (Sensor sensor : sensors) {
+                    sensorDataService.saveSensorData(new SensorData(sensor.getSensorId(), currentDateTime, sensor.getSensorValue()));
+                }
+                log.info("Data published to MongoDB");
+
+            } catch (JsonProcessingException e) {
+                log.error("Failed to process JSON: ", e);
+            } catch (Exception e) {
+                log.error("Unexpected error while saving data to MongoDB: ", e);
+            }
+        });
     }
 
     @Override
