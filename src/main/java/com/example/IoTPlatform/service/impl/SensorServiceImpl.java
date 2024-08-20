@@ -47,9 +47,9 @@ public class SensorServiceImpl implements SensorService {
         Sensor sensorVar = sensorRepository.findById(id).orElseThrow();
         sensorVar.setCreationDate(sensor.getCreationDate());
         sensorVar.setTimeStamp(sensor.getTimeStamp());
-        sensorVar.setsensorValue(sensor.getsensorValue());
+        sensorVar.setSensorValue(sensor.getSensorValue());
         sensorVar.setType(sensor.getType());
-        sensorVar.setsensorName(sensor.getsensorName());
+        sensorVar.setSensorName(sensor.getSensorName());
         sensorVar.setSensorPin(sensor.getSensorPin());
 //        sensorVar.setSensor_data(new SensorData(0.00));
         sensorRepository.save(sensorVar);
