@@ -29,7 +29,10 @@ public class CustomMqttCallbackImpl implements MqttCallback {
 
     ObjectMapper objectMapper = new ObjectMapper();
 
-    private SocketClient socketClient  = new SocketClient(); //WebSocket Client Initialization & Declaration.
+//    private SocketClient socketClient  = new SocketClient(); //WebSocket Client Initialization & Declaration.
+    @Autowired
+    private SocketClient socketClient; //WebSocket Client Declaration.
+
     @Override
     public void connectionLost(Throwable throwable) {
         log.info("Mqtt Client disconnected: " + throwable.getMessage());
@@ -65,9 +68,9 @@ public class CustomMqttCallbackImpl implements MqttCallback {
 //            Date currentDateTime = formatter.parse("<YYYY-mm-ddTHH:MM:ss>");
 //            List<Sensor> sensors = objectMapper.readValue(message, new TypeReference<List<Sensor>>() {});
 //            log.info("Sensor[0] Data:" + sensors.get(0).toString());
-////            for (Sensor sensor : sensors) {
-////                sensorDataService.saveSensorData(new SensorData(sensor.getSensorId(), currentDateTime, sensor.getsensorValue()));
-////            }
+//            for (Sensor sensor : sensors) {
+//                sensorDataService.saveSensorData(new SensorData(sensor.getSensorId(), currentDateTime, sensor.getsensorValue()));
+//            }
 //            log.info("Data published to MongoDB");
 //        } catch (JsonProcessingException e){
 //            throw new RuntimeException(e);
