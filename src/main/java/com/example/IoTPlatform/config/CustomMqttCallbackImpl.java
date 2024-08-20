@@ -72,8 +72,8 @@ public class CustomMqttCallbackImpl implements MqttCallback {
                 List<Sensor> sensors = objectMapper.readValue(message, new TypeReference<List<Sensor>>() {});
 
                 // Get the current date and time
-                Date currentDateTime = formatter.parse("<YYYY-mm-ddTHH:MM:ss>");
-                log.info("Current D&T: "+ currentDateTime.toString());
+                Date currentDateTime = new Date();
+                log.info("Current D&T: "+ currentDateTime);
 
                 // Save each sensor data to MongoDB
                 for (Sensor sensor : sensors) {
